@@ -6,7 +6,7 @@
 /*   By: gmassoni <gauthier.massoni@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 14:59:20 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/08 05:44:22 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/09 02:38:53 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 void	ft_lstfree(t_list **lst);
 char	*get_next_line(int fd);
 void	ft_free_tab(char **tab);
-void	ft_tabcpy(char **dst, char **src);
+void	ft_tabcpy(char **dst, char **src, int total);
 char	**ft_add_element_tab(char **tab, char *str);
 char	*ft_remove_char(char *str, int i);
 int		ft_inset(char c, char *set);
