@@ -6,7 +6,7 @@
 /*   By: gmassoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 21:32:24 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/09 02:35:37 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/09 19:18:06 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,7 @@ int	main(int argc, char **argv)
 		ft_free_tab(map);
 		return (1);
 	}
-	for (int i = 0; map[i]; i++)
-		ft_printf("[%s]\n", map[i]);
+	game_init(map);
 	ft_free_tab(map);
 	return (0);
 }

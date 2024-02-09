@@ -6,7 +6,7 @@
 /*   By: gmassoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 05:14:07 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/09 02:39:03 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/09 15:37:20 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ char	**ft_add_element_tab(char **tab, char *str)
 	if (res == NULL)
 		return (NULL);
 	ft_tabcpy(res, tab, 0);
-	free(tab);
+	if (tab)
+		free(tab);
 	res[len] = str;
 	res[len + 1] = NULL;
 	return (res);

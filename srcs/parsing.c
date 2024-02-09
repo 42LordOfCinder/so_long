@@ -6,7 +6,7 @@
 /*   By: gmassoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 21:32:24 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/08 20:51:20 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/09 15:45:31 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ char	**read_map(int fd)
 
 	map = NULL;
 	str = get_next_line(fd);
+	if (!str)
+		ft_putstr_fd("Error\nMap is empty\n", 2);
 	while (str)
 	{
 		map = ft_add_element_tab(map, ft_remove_char(str, ft_strlen(str) - 1));

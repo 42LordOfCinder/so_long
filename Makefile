@@ -8,19 +8,23 @@ CC = clang
 
 CFLAGS = -Wall -Wextra -Werror
 
-SRCS = srcs/main.c   \
+SRCS = srcs/game.c  \
+	   srcs/main.c   \
 	   srcs/parsing.c \
 	   srcs/checking.c \
 	   srcs/vec_utils/utils.c
 
 OBJS = ${SRCS:.c=.o}
 
+MACROLIBX = MacroLibX/libmlx.so
+
+MACROLIBX_INCLUDE = ./MacroLibX/includes
 
 LIBFT_DIR = ./libft
 
 LIBFT = ${LIBFT_DIR}/libft.a
 
-LIBFT_INCLUDE = ${LIBFT_DIR}/include
+LIBFT_INCLUDE = ./${LIBFT_DIR}/include
 
 # This is a minimal set of ANSI/VT100 color codes
 _END=\x1b[0m
@@ -55,7 +59,7 @@ all: ${NAME}
 ${NAME}: ${LIBFT} ${OBJS}
 	@printf "${_CLEAR} ${_YELLOW}${_BOLD}[${_END} Compiling       ${_BOLD}so_long${_END}      ${_GREEN}Done!${_END}${_YELLOW}${_BOLD} ]${_END}"
 	@printf "\n ${_PURPLE}${_BOLD}[${_END} Linking         ${_BOLD}so_long${_END}...${_PURPLE}${_BOLD} ]${_END} "
-	@${CC} ${CFLAGS} ${OBJS} ${LIBFT} -I${INCLUDE} -I${LIBFT_INCLUDE} -o ${NAME}
+	@${CC} ${CFLAGS} ${OBJS} ${LIBFT} ${MACROLIBX} -I${INCLUDE} -I${LIBFT_INCLUDE} -I${MACROLIBX_INCLUDE} -o ${NAME} -lSDL2
 	@printf "${_CLEAR} ${_PURPLE}${_BOLD}[${_END} Linking         ${_BOLD}so_long${_END}      ${_GREEN}Done!${_END}${_PURPLE}${_BOLD} ]${_END}\n"
 
 ${LIBFT}:
@@ -63,7 +67,7 @@ ${LIBFT}:
 
 %.o: %.c
 	@printf "${_CLEAR} ${_YELLOW}${_BOLD}[${_END} Compiling       ${_BOLD}so_long${_END}... ${_CYAN}$<${_END}${_YELLOW}${_BOLD} ]${_END}"
-	@${CC} ${CFLAGS} -I${INCLUDE} -I${LIBFT_INCLUDE} -c $< -o $@
+	@${CC} ${CFLAGS} -I${INCLUDE} -c $< -o $@
 
 clean:
 	@make -s -C ${LIBFT_DIR} clean

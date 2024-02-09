@@ -6,16 +6,21 @@
 /*   By: gmassoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 21:33:08 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/09 04:11:10 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/09 19:19:23 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
+# include "../MacroLibX/includes/mlx.h"
 # include "../libft/include/libft.h"
 # include <stdio.h>
 # include <fcntl.h>
+
+# ifndef TS
+#  define TS 80
+# endif
 
 // Structs
 typedef struct s_vec
@@ -23,6 +28,14 @@ typedef struct s_vec
 	int	x;
 	int	y;
 }	t_vec;
+
+typedef struct s_game
+{
+	char	**map;
+	void	*mlx;
+	void	*win;
+	int		moves;
+}	t_game;
 
 // Main
 int		main(int argc, char **argv);
@@ -41,4 +54,7 @@ char	**check_map(char *name);
 void	get_map_access(char **cpy, t_vec coords);
 int		check_access(char **map, char **cpy);
 int		check_map_path(char **map);
+
+// Game
+void	game_init(char **map);
 #endif
