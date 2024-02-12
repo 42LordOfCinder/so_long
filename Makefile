@@ -12,6 +12,7 @@ SRCS = srcs/game.c  \
 	   srcs/main.c   \
 	   srcs/parsing.c \
 	   srcs/checking.c \
+	   srcs/utils.c     \
 	   srcs/vec_utils/utils.c
 
 OBJS = ${SRCS:.c=.o}

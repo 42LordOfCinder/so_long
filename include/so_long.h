@@ -6,7 +6,7 @@
 /*   By: gmassoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 21:33:08 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/09 19:19:23 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/12 03:11:36 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <fcntl.h>
 
 # ifndef TS
-#  define TS 80
+#  define TS 128
 # endif
 
 // Structs
@@ -29,12 +29,19 @@ typedef struct s_vec
 	int	y;
 }	t_vec;
 
+typedef struct s_assets
+{
+	void	*water;
+	void	*ground;
+}	t_assets;
+
 typedef struct s_game
 {
-	char	**map;
-	void	*mlx;
-	void	*win;
-	int		moves;
+	char		**map;
+	void		*mlx;
+	void		*win;
+	int			moves;
+	t_assets	*assets;
 }	t_game;
 
 // Main
@@ -57,4 +64,8 @@ int		check_map_path(char **map);
 
 // Game
 void	game_init(char **map);
+
+// Utils
+void	load_assets(t_game *game);
+void	destroy_assets(t_game *game);
 #endif

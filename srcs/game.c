@@ -6,7 +6,7 @@
 /*   By: gmassoni <gmassoni@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:23:28 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/09 19:17:42 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/12 03:10:59 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,18 @@ int	window_hook(int event, void *mlx)
 	return (0);
 }
 
-int	main_loop(void *game)
+void	draw(t_game *g)
 {
-	game = (t_game *)game;
+	mlx_put_image_to_window(g->mlx, g->win, g->assets->ground, 0, 0);
+}
+
+int	main_loop(void *param)
+{
+	t_game	*game;
+
+	game = (t_game *)param;
+	mlx_clear_window(game->mlx, game->win);
+	draw(game);
 	return (0);
 }
 
@@ -39,11 +48,14 @@ void	game_init(char **map)
 	game.moves = 0;
 	game.map = map;
 	game.mlx = mlx_init();
-	game.win = mlx_new_window(game.mlx, TS * 16, TS * 9, "so_long");
+	game.win = mlx_new_window(game.mlx, TS * 9, TS * 5, "so_long");
+	load_assets(&game);
+	mlx_set_fps_goal(game.mlx, 60);
 	mlx_on_event(game.mlx, game.win, MLX_KEYDOWN, key_hook, game.mlx);
 	mlx_on_event(game.mlx, game.win, MLX_WINDOW_EVENT, window_hook, game.mlx);
 	mlx_loop_hook(game.mlx, main_loop, &game);
 	mlx_loop(game.mlx);
+	destroy_assets(&game);
 	mlx_destroy_window(game.mlx, game.win);
 	mlx_destroy_display(game.mlx);
 }
