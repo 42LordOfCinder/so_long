@@ -6,7 +6,7 @@
 /*   By: gmassoni <gmassoni@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:05:51 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/09 03:50:12 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/12 17:32:43 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,4 @@ t_vec	vecnew(int x, int y)
 	new.x = x;
 	new.y = y;
 	return (new);
-}
-
-t_vec	addvec(t_vec vec1, t_vec vec2)
-{
-	vec1.x += vec2.x;
-	vec1.y += vec2.y;
-	return (vec1);
 }

@@ -13,13 +13,9 @@ SRCS = srcs/game.c  \
 	   srcs/parsing.c \
 	   srcs/checking.c \
 	   srcs/utils.c     \
-	   srcs/vec_utils/utils.c
+	   srcs/assets.c
 
 OBJS = ${SRCS:.c=.o}
-
-MACROLIBX = MacroLibX/libmlx.so
-
-MACROLIBX_INCLUDE = ./MacroLibX/includes
 
 LIBFT_DIR = ./libft
 
@@ -60,7 +56,7 @@ all: ${NAME}
 ${NAME}: ${LIBFT} ${OBJS}
 	@printf "${_CLEAR} ${_YELLOW}${_BOLD}[${_END} Compiling       ${_BOLD}so_long${_END}      ${_GREEN}Done!${_END}${_YELLOW}${_BOLD} ]${_END}"
 	@printf "\n ${_PURPLE}${_BOLD}[${_END} Linking         ${_BOLD}so_long${_END}...${_PURPLE}${_BOLD} ]${_END} "
-	@${CC} ${CFLAGS} ${OBJS} ${LIBFT} ${MACROLIBX} -I${INCLUDE} -I${LIBFT_INCLUDE} -I${MACROLIBX_INCLUDE} -o ${NAME} -lSDL2
+	@${CC} ${CFLAGS} ${OBJS} ${LIBFT} mlx/libmlx.so -lSDL2 -I${INCLUDE} -I${LIBFT_INCLUDE} -o ${NAME}
 	@printf "${_CLEAR} ${_PURPLE}${_BOLD}[${_END} Linking         ${_BOLD}so_long${_END}      ${_GREEN}Done!${_END}${_PURPLE}${_BOLD} ]${_END}\n"
 
 ${LIBFT}:
@@ -68,7 +64,7 @@ ${LIBFT}:
 
 %.o: %.c
 	@printf "${_CLEAR} ${_YELLOW}${_BOLD}[${_END} Compiling       ${_BOLD}so_long${_END}... ${_CYAN}$<${_END}${_YELLOW}${_BOLD} ]${_END}"
-	@${CC} ${CFLAGS} -I${INCLUDE} -c $< -o $@
+	@${CC} ${CFLAGS} -I${INCLUDE} -Imlx/includes/ -c $< -o $@
 
 clean:
 	@make -s -C ${LIBFT_DIR} clean

@@ -6,19 +6,31 @@
 /*   By: gmassoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 01:34:42 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/12 03:09:02 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/12 19:05:53 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	load_assets(t_game *game)
+t_vec	vecnew(int x, int y)
 {
-	game->assets->ground = mlx_png_file_to_image(game->mlx, \
-		"assets/graphics/terrain/ground.png", NULL, NULL);
+	t_vec	new;
+
+	new.x = x;
+	new.y = y;
+	return (new);
 }
 
-void	destroy_assets(t_game *game)
+int	key_hook(int key, void *mlx)
 {
-	mlx_destroy_image(game->mlx, game->assets->ground);
+	if (key == 41)
+		mlx_loop_end(mlx);
+	return (0);
+}
+
+int	window_hook(int event, void *mlx)
+{
+	if (event == 0)
+		mlx_loop_end(mlx);
+	return (0);
 }

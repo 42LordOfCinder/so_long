@@ -6,20 +6,20 @@
 /*   By: gmassoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 21:33:08 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/12 03:11:36 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/12 20:01:36 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-# include "../MacroLibX/includes/mlx.h"
+# include "../mlx/includes/mlx.h"
 # include "../libft/include/libft.h"
 # include <stdio.h>
 # include <fcntl.h>
 
 # ifndef TS
-#  define TS 128
+#  define TS 64
 # endif
 
 // Structs
@@ -31,8 +31,9 @@ typedef struct s_vec
 
 typedef struct s_assets
 {
-	void	*water;
 	void	*ground;
+	void	*water;
+	void	*player;
 }	t_assets;
 
 typedef struct s_game
@@ -46,9 +47,6 @@ typedef struct s_game
 
 // Main
 int		main(int argc, char **argv);
-
-// Vectors
-t_vec	vecnew(int x, int y);
 
 // Parsing
 int		map_errors(int err_num);
@@ -66,6 +64,11 @@ int		check_map_path(char **map);
 void	game_init(char **map);
 
 // Utils
+t_vec	vecnew(int x, int y);
+int		key_hook(int key, void *mlx);
+int		window_hook(int event, void *mlx);
+
+// Assets
 void	load_assets(t_game *game);
 void	destroy_assets(t_game *game);
 #endif
