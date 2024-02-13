@@ -6,7 +6,7 @@
 /*   By: gmassoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 21:33:08 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/12 20:01:36 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/13 03:16:56 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,12 @@ typedef struct s_assets
 typedef struct s_game
 {
 	char		**map;
+	t_vec		map_size;
 	void		*mlx;
 	void		*win;
 	int			moves;
 	t_assets	*assets;
+	t_vec		player_pos;
 }	t_game;
 
 // Main
@@ -67,6 +69,8 @@ void	game_init(char **map);
 t_vec	vecnew(int x, int y);
 int		key_hook(int key, void *mlx);
 int		window_hook(int event, void *mlx);
+t_vec	get_player_pos(char **map);
+t_vec	get_map_size(char **map);
 
 // Assets
 void	load_assets(t_game *game);

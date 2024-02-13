@@ -6,7 +6,7 @@
 /*   By: gmassoni <gauthier.massoni@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 14:59:20 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/09 02:38:53 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/13 03:53:54 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,5 @@ void	ft_tabcpy(char **dst, char **src, int total);
 char	**ft_add_element_tab(char **tab, char *str);
 char	*ft_remove_char(char *str, int i);
 int		ft_inset(char c, char *set);
+int		ft_abs(int n);
 #endif

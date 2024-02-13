@@ -64,6 +64,7 @@ SRCS = ft_atoi.c         \
 	   ft_tabcpy.c       \
 	   ft_remove_char.c  \
 	   ft_inset.c        \
+	   ft_abs.c          \
 	   ft_add_element_tab.c \
 	   ft_printf/srcs/ft_printf.c            \
 	   ft_printf/srcs/ft_putchar_count.c     \
