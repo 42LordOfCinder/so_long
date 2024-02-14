@@ -6,7 +6,7 @@
 /*   By: gmassoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 21:33:08 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/14 04:22:01 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/14 19:26:02 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,15 @@ typedef struct s_assets
 {
 	void	*ground;
 	void	*water;
-	void	*player;
+	void	*idle_r[6];
 }	t_assets;
 
 typedef struct s_player
 {
 	t_vec	pos;
+	t_vec	dir;
+	t_vec	cell;
+	t_vec	offset;
 }	t_player;
 
 typedef struct s_game
@@ -48,6 +51,7 @@ typedef struct s_game
 	void		*mlx;
 	void		*win;
 	int			moves;
+	int			frames;
 	t_assets	*assets;
 	t_player	player;
 }	t_game;
@@ -69,13 +73,13 @@ int		check_map_path(char **map);
 
 // Game
 void	draw_map(t_game *g);
-void	move_player(int key, t_game *g);
 int		main_loop(void *param);
 void	game_init(char **map);
 
 // Utils
 t_vec	vecnew(int x, int y);
-int		key_hook(int key, void *mlx);
+int		key_up_hook(int key, void *mlx);
+int		key_down_hook(int key, void *mlx);
 int		window_hook(int event, void *mlx);
 t_vec	get_player_pos(char **map);
 t_vec	get_map_size(char **map);

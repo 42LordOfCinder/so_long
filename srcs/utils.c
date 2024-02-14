@@ -6,7 +6,7 @@
 /*   By: gmassoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 01:34:42 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/13 19:24:35 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/14 17:07:30 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,37 @@ t_vec	vecnew(int x, int y)
 	return (new);
 }
 
-int	key_hook(int key, void *param)
+int	key_down_hook(int key, void *param)
 {
 	t_game	*g;
 
 	g = (t_game *)param;
 	if (key == 41)
 		mlx_loop_end(g->mlx);
-	if (key == 26 || key == 4 || key == 22 || key == 7)
-		move_player(key, g);
+	if (key == 26)
+		g->player.dir.y = -3;
+	if (key == 22)
+		g->player.dir.y = 3;
+	if (key == 4)
+		g->player.dir.x = -3;
+	if (key == 7)
+		g->player.dir.x = 3;
+	return (0);
+}
+
+int	key_up_hook(int key, void *param)
+{
+	t_game	*g;
+
+	g = (t_game *)param;
+	if (key == 26)
+		g->player.dir.y = 0;
+	if (key == 22)
+		g->player.dir.y = 0;
+	if (key == 4)
+		g->player.dir.x = 0;
+	if (key == 7)
+		g->player.dir.x = 0;
 	return (0);
 }
 
@@ -52,7 +74,7 @@ t_vec	get_player_pos(char **map)
 		while (map[i][j])
 		{
 			if (map[i][j] == 'P')
-				return (vecnew(j * TS, i * TS));
+				return (vecnew((j * TS) + 39, (i * TS) + 45));
 			j++;
 		}
 		i++;

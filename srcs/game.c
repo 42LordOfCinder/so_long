@@ -6,7 +6,7 @@
 /*   By: gmassoni <gmassoni@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:23:28 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/14 04:26:43 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/14 19:26:07 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,11 @@
 
 void	draw_map(t_game *g)
 {
-	t_vec	player_case;
 	t_vec	map_offset;
-	t_vec	case_offset;
 	int		i;
 	int		j;
 
-	player_case.x = g->player.pos.x / 64;
-	player_case.y = g->player.pos.y / 64;
-	map_offset = vecnew(10 - player_case.x, 5 - player_case.y);
-	case_offset = vecnew(g->player.pos.x % 64, g->player.pos.y % 64);
+	map_offset = vecnew(10 - g->player.cell.x, 5 - g->player.cell.y);
 	i = -2;
 	while (++i < 13)
 	{
@@ -35,24 +30,45 @@ void	draw_map(t_game *g)
 				i - map_offset.y > g->map_size.y - 1 ||
 				g->map[i - map_offset.y][j - map_offset.x] == '1')
 				mlx_put_image_to_window(g->mlx, g->win, g->assets->water,\
-					(j * TS) - case_offset.x, (i * TS) - case_offset.y);
+					j * TS - g->player.offset.x, i * TS - g->player.offset.y);
 			else
 				mlx_put_image_to_window(g->mlx, g->win, g->assets->ground,\
-					(j * TS) - case_offset.x, (i * TS) - case_offset.y);
+					j * TS - g->player.offset.x, i * TS - g->player.offset.y);
 		}
 	}
 }
 
-void	move_player(int key, t_game *g)
+int	check_hitbox(t_game *g, char dir)
 {
-	if (key == 26)
-		g->player.pos.y += -10;
-	if (key == 22)
-		g->player.pos.y += 10;
-	if (key == 4)
-		g->player.pos.x += -10;
-	if (key == 7)
-		g->player.pos.x += 10;
+	if (dir == 'x')
+	{
+		if (g->player.dir.x > 0)
+			if (g->map[g->player.cell.y][g->player.cell.x + 1] == '1')
+				if (g->player.offset.x >= 42)
+					return (1);
+		if (g->player.dir.x < 0)
+			if (g->map[g->player.cell.y][g->player.cell.x - 1] == '1')
+				if (g->player.offset.x <= 20)
+					return (1);
+	}
+	if (dir == 'y')
+	{
+		if (g->player.dir.y > 0)
+			if (g->map[g->player.cell.y + 1][g->player.cell.x] == '1')
+				if (g->player.offset.y >= 53)
+					return (1);
+		if (g->player.dir.y < 0)
+			if (g->map[g->player.cell.y - 1][g->player.cell.x] == '1')
+				if (g->player.offset.y <= 7)
+					return (1);
+	}
+	return (0);
+}
+
+void	draw_player(t_game *g)
+{
+	//if (g->player.dir == vecnew())
+	mlx_put_image_to_window(g->mlx, g->win, g->assets->idle_r[0], (TS * 10) - 32, (TS * 5) - 82);
 }
 
 int	main_loop(void *param)
@@ -61,8 +77,15 @@ int	main_loop(void *param)
 
 	g = (t_game *)param;
 	mlx_clear_window(g->mlx, g->win);
+	if (!check_hitbox(g, 'x'))
+		g->player.pos.x += g->player.dir.x;
+	if (!check_hitbox(g, 'y'))
+		g->player.pos.y += g->player.dir.y;
+	g->player.cell = vecnew(g->player.pos.x / TS, g->player.pos.y / TS);
+	g->player.offset = vecnew(g->player.pos.x % TS, g->player.pos.y % TS);
 	draw_map(g);
-	mlx_put_image_to_window(g->mlx, g->win, g->assets->player, TS * 10, TS * 4 + 35);
+	draw_player(g);
+	g->frames++;
 	return (0);
 }
 
@@ -72,17 +95,20 @@ void	game_init(char **map)
 
 	g.moves = 0;
 	g.map = map;
+	g.frames = 0;
 	g.map_size = get_map_size(map);
 	g.mlx = mlx_init();
 	g.win = mlx_new_window(g.mlx, 21 * TS, 11 * TS, "so_long");
 	g.player.pos = get_player_pos(g.map);
+	g.player.dir = vecnew(0, 0);
 	load_assets(&g);
 	mlx_set_fps_goal(g.mlx, 60);
-	mlx_on_event(g.mlx, g.win, MLX_KEYDOWN, key_hook, &g);
+	mlx_on_event(g.mlx, g.win, MLX_KEYDOWN, key_down_hook, &g);
+	mlx_on_event(g.mlx, g.win, MLX_KEYUP, key_up_hook, &g);
 	mlx_on_event(g.mlx, g.win, MLX_WINDOW_EVENT, window_hook, g.mlx);
 	mlx_loop_hook(g.mlx, main_loop, &g);
 	mlx_loop(g.mlx);
 	mlx_destroy_window(g.mlx, g.win);
-	//destroy_assets(&game);
+	destroy_assets(&g);
 	mlx_destroy_display(g.mlx);
 }
