@@ -6,7 +6,7 @@
 /*   By: gmassoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 21:33:08 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/13 03:16:56 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/14 04:22:01 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,11 @@ typedef struct s_assets
 	void	*player;
 }	t_assets;
 
+typedef struct s_player
+{
+	t_vec	pos;
+}	t_player;
+
 typedef struct s_game
 {
 	char		**map;
@@ -44,7 +49,7 @@ typedef struct s_game
 	void		*win;
 	int			moves;
 	t_assets	*assets;
-	t_vec		player_pos;
+	t_player	player;
 }	t_game;
 
 // Main
@@ -63,6 +68,9 @@ int		check_access(char **map, char **cpy);
 int		check_map_path(char **map);
 
 // Game
+void	draw_map(t_game *g);
+void	move_player(int key, t_game *g);
+int		main_loop(void *param);
 void	game_init(char **map);
 
 // Utils

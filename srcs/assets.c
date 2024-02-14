@@ -6,7 +6,7 @@
 /*   By: gmassoni <gmassoni@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 19:05:17 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/12 19:54:00 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/13 17:51:35 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	load_assets(t_game *game)
 {
+	game->assets = ft_calloc(1, sizeof(t_assets));
 	game->assets->ground = mlx_png_file_to_image(game->mlx,\
 		"assets/graphics/terrain/ground.png", NULL, NULL);
 	game->assets->water = mlx_png_file_to_image(game->mlx,\

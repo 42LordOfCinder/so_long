@@ -6,7 +6,7 @@
 /*   By: gmassoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 04:46:31 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/13 04:27:18 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/13 15:50:34 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,13 @@ int	check_map_path(char **map)
 	while (map[++i])
 	{
 		j = -1;
-		while (map[++j])
+		while (map[i][++j])
+		{
 			if (map[i][j] == 'P')
 				get_map_access(cpy, vecnew(j, i));
+		}
 	}
 	check = check_access(map, cpy);
-	for (int p = 0; cpy[p]; p++)
-		ft_printf("%s\n", cpy[p]);
 	ft_free_tab(cpy);
 	return (check);
 }

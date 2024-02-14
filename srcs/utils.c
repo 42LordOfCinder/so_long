@@ -6,7 +6,7 @@
 /*   By: gmassoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 01:34:42 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/13 03:16:32 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/13 19:24:35 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,15 @@ t_vec	vecnew(int x, int y)
 	return (new);
 }
 
-int	key_hook(int key, void *mlx)
+int	key_hook(int key, void *param)
 {
+	t_game	*g;
+
+	g = (t_game *)param;
 	if (key == 41)
-		mlx_loop_end(mlx);
+		mlx_loop_end(g->mlx);
+	if (key == 26 || key == 4 || key == 22 || key == 7)
+		move_player(key, g);
 	return (0);
 }
 
@@ -40,10 +45,10 @@ t_vec	get_player_pos(char **map)
 	int	i;
 	int	j;
 
-	i = 1;
+	i = 0;
 	while (map[i])
 	{
-		j = 1;
+		j = 0;
 		while (map[i][j])
 		{
 			if (map[i][j] == 'P')
