@@ -6,7 +6,7 @@
 /*   By: gmassoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 01:34:42 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/14 17:07:30 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/15 02:32:20 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,17 @@ int	key_down_hook(int key, void *param)
 	if (key == 41)
 		mlx_loop_end(g->mlx);
 	if (key == 26)
-		g->player.dir.y = -3;
+		g->player.dir.y = -4;
 	if (key == 22)
-		g->player.dir.y = 3;
+		g->player.dir.y = 4;
 	if (key == 4)
-		g->player.dir.x = -3;
+		g->player.dir.x = -4;
 	if (key == 7)
-		g->player.dir.x = 3;
+		g->player.dir.x = 4;
+	if (key == 7)
+		g->player.anim_dir = 0;
+	if (key == 4)
+		g->player.anim_dir = 1;
 	return (0);
 }
 
