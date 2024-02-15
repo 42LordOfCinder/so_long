@@ -6,7 +6,7 @@
 /*   By: gmassoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 01:34:42 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/15 14:16:33 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/15 19:13:19 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,4 +100,27 @@ t_vec	get_map_size(char **map)
 	while (map[i - 1][j])
 		j++;
 	return (vecnew(j, i));
+}
+
+char	**put_random_elt(char **map)
+{
+	int	i;
+	int	j;
+	int	ran;
+
+	srand(time(NULL));
+	i = 0;
+	while (map[i + 1])
+	{
+		j = 0;
+		while (map[i][j + 1])
+		{
+			ran = rand() % 20;
+			if (ran == 1 && map[i][j] == '0')
+				map[i][j] = rand() % 8 + 48 + 2;
+			j++;
+		}
+		i++;
+	}
+	return (map);
 }

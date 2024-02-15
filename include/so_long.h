@@ -6,7 +6,7 @@
 /*   By: gmassoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 21:33:08 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/15 14:23:32 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/15 19:30:23 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include "../libft/include/libft.h"
 # include <stdio.h>
 # include <fcntl.h>
+# include <stdlib.h>
+# include <time.h>
 
 # ifndef TS
 #  define TS 64
@@ -33,6 +35,10 @@ typedef struct s_assets
 {
 	void	*grass[16];
 	void	*water;
+	void	*o_idle;
+	void	*objects[7];
+	void	*foam[8];
+	void	*deco[8];
 	void	*idle_r[6];
 	void	*idle_l[6];
 	void	*right[6];
@@ -62,6 +68,7 @@ typedef struct s_game
 	void		*win;
 	int			moves;
 	int			frames;
+	float		f_frames;
 	t_assets	*assets;
 	t_player	player;
 }	t_game;
@@ -87,6 +94,7 @@ int		main_loop(void *param);
 void	game_init(char **map);
 
 // Ground
+void	draw_map(t_game *g);
 void	chose_grass(t_game *g, int i, int j, t_vec map_offset);
 
 // Utils
@@ -96,6 +104,7 @@ int		key_down_hook(int key, void *mlx);
 int		window_hook(int event, void *mlx);
 t_vec	get_player_pos(char **map);
 t_vec	get_map_size(char **map);
+char	**put_random_elt(char **map);
 
 // Anims
 void	anim_player_idle(t_game *g, int dir);

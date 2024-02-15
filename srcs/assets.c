@@ -6,7 +6,7 @@
 /*   By: gmassoni <gmassoni@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 19:05:17 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/15 14:15:09 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/15 19:37:06 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,70 +42,79 @@ void	load_assets(t_game *g)
 	char	tmp[100];
 
 	g->assets = ft_calloc(1, sizeof(t_assets));
-	g->assets->water = mlx_png_file_to_image(g->mlx,\
-		"assets/graphics/terrain/water.png", NULL, NULL);
+	g->assets->water = mlx_png_file_to_image(g->mlx, "assets/graphics/terrain/water.png", NULL, NULL);
+	i = -1;
+	while (++i < 8)
+	{
+		add_png(tmp, i, "assets/graphics/terrain/foam/");
+		g->assets->foam[i] = mlx_png_file_to_image(g->mlx, tmp, NULL, NULL);
+	}
 	i = -1;
 	while (++i < 16)
 	{
 		add_png(tmp, i, "assets/graphics/terrain/grass/");
-		g->assets->grass[i] = mlx_png_file_to_image(g->mlx,\
-			tmp, NULL, NULL);
+		g->assets->grass[i] = mlx_png_file_to_image(g->mlx, tmp, NULL, NULL);
+	}
+	i = -1;
+	while (++i < 8)
+	{
+		add_png(tmp, i, "assets/graphics/terrain/deco/");
+		g->assets->deco[i] = mlx_png_file_to_image(g->mlx, tmp, NULL, NULL);
+	}
+	g->assets->o_idle = mlx_png_file_to_image(g->mlx, "assets/graphics/objects/idle.png", NULL, NULL);
+	i = -1;
+	while (++i < 7)
+	{
+		add_png(tmp, i, "assets/graphics/objects/anim/");
+		g->assets->objects[i] = mlx_png_file_to_image(g->mlx, tmp, NULL, NULL);
 	}
 	i = -1;
 	while (++i < 6)
 	{
 		add_png(tmp, i, "assets/graphics/player/idle_right/");
-		g->assets->idle_r[i] = mlx_png_file_to_image(g->mlx,\
-			tmp, NULL, NULL);
+		g->assets->idle_r[i] = mlx_png_file_to_image(g->mlx, tmp, NULL, NULL);
 	}
 	i = -1;
 	while (++i < 6)
 	{
 		add_png(tmp, i, "assets/graphics/player/idle_left/");
-		g->assets->idle_l[i] = mlx_png_file_to_image(g->mlx,\
-			tmp, NULL, NULL);
+		g->assets->idle_l[i] = mlx_png_file_to_image(g->mlx, tmp, NULL, NULL);
 	}
 	i = -1;
 	while (++i < 6)
 	{
 		add_png(tmp, i, "assets/graphics/player/right/");
-		g->assets->right[i] = mlx_png_file_to_image(g->mlx,\
-			tmp, NULL, NULL);
+		g->assets->right[i] = mlx_png_file_to_image(g->mlx, tmp, NULL, NULL);
 	}
 	i = -1;
 	while (++i < 6)
 	{
 		add_png(tmp, i, "assets/graphics/player/left/");
-		g->assets->left[i] = mlx_png_file_to_image(g->mlx,\
-			tmp, NULL, NULL);
+		g->assets->left[i] = mlx_png_file_to_image(g->mlx, tmp, NULL, NULL);
 	}
 	i = -1;
 	while (++i < 6)
 	{
 		add_png(tmp, i, "assets/graphics/player/attack_r/t1/");
-		g->assets->atk_r_t1[i] = mlx_png_file_to_image(g->mlx,\
-			tmp, NULL, NULL);
+		g->assets->atk_r_t1[i] = mlx_png_file_to_image(g->mlx, tmp, NULL, NULL);
 	}
 	i = -1;
 	while (++i < 6)
 	{
 		add_png(tmp, i, "assets/graphics/player/attack_r/t2/");
-		g->assets->atk_r_t2[i] = mlx_png_file_to_image(g->mlx,\
-			tmp, NULL, NULL);
+		g->assets->atk_r_t2[i] = mlx_png_file_to_image(g->mlx, tmp, NULL, NULL);
 	}
 	i = -1;
 	while (++i < 6)
 	{
 		add_png(tmp, i, "assets/graphics/player/attack_l/t1/");
-		g->assets->atk_l_t1[i] = mlx_png_file_to_image(g->mlx,\
-			tmp, NULL, NULL);
+		g->assets->atk_l_t1[i] = mlx_png_file_to_image(g->mlx, tmp, NULL, NULL);
 	}
 	i = -1;
 	while (++i < 6)
 	{
 		add_png(tmp, i, "assets/graphics/player/attack_l/t2/");
-		g->assets->atk_l_t2[i] = mlx_png_file_to_image(g->mlx,\
-			tmp, NULL, NULL);
+		g->assets->atk_l_t2[i] = mlx_png_file_to_image(g->mlx, tmp, NULL, NULL);
 	}
 }
 
@@ -114,6 +123,7 @@ void	destroy_assets(t_game *g)
 	int	i;
 
 	mlx_destroy_image(g->mlx, g->assets->water);
+	mlx_destroy_image(g->mlx, g->assets->o_idle);
 	i = -1;
 	while (++i < 6)
 		mlx_destroy_image(g->mlx, g->assets->idle_r[i]);
@@ -141,5 +151,14 @@ void	destroy_assets(t_game *g)
 	i = -1;
 	while (++i < 16)
 		mlx_destroy_image(g->mlx, g->assets->grass[i]);
+	i = -1;
+	while (++i < 8)
+		mlx_destroy_image(g->mlx, g->assets->foam[i]);
+	i = -1;
+	while (++i < 8)
+		mlx_destroy_image(g->mlx, g->assets->deco[i]);
+	i = -1;
+	while (++i < 7)
+		mlx_destroy_image(g->mlx, g->assets->objects[i]);
 	free(g->assets);
 }

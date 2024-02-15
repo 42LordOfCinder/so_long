@@ -6,36 +6,11 @@
 /*   By: gmassoni <gmassoni@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:23:28 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/15 14:23:05 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/15 18:29:19 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-
-void	draw_map(t_game *g)
-{
-	t_vec	map_offset;
-	int		i;
-	int		j;
-
-	map_offset = vecnew(10 - g->player.cell.x, 5 - g->player.cell.y);
-	i = -2;
-	while (++i < 13)
-	{
-		j = -2;
-		while (++j < 23)
-		{
-			if (j - map_offset.x < 0 || i - map_offset.y < 0 ||
-				j - map_offset.x > g->map_size.x - 1 ||
-				i - map_offset.y > g->map_size.y - 1 ||
-				g->map[i - map_offset.y][j - map_offset.x] == '1')
-				mlx_put_image_to_window(g->mlx, g->win, g->assets->water,\
-					j * TS - g->player.offset.x, i * TS - g->player.offset.y);
-			else
-				chose_grass(g, i, j, map_offset);
-		}
-	}
-}
 
 int	check_hitbox(t_game *g, char dir)
 {
@@ -91,6 +66,9 @@ int	main_loop(void *param)
 	g->frames += 2;
 	if (g->frames > 60)
 		g->frames = 1;
+	g->f_frames += 1.5;
+	if (g->f_frames > 80)
+		g->f_frames = 1;
 	return (0);
 }
 
@@ -99,8 +77,9 @@ void	game_init(char **map)
 	t_game	g;
 
 	g.moves = 0;
-	g.map = map;
+	g.map = put_random_elt(map);
 	g.frames = 1;
+	g.f_frames = 1;
 	g.map_size = get_map_size(map);
 	g.mlx = mlx_init();
 	g.win = mlx_new_window(g.mlx, 21 * TS, 11 * TS, "so_long");
