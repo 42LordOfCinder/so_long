@@ -6,7 +6,7 @@
 /*   By: gmassoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 21:19:58 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/15 04:07:39 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/15 14:24:10 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,23 @@ void	anim_player_walk(t_game *g, int dir)
 		mlx_put_image_to_window(g->mlx, g->win, tab[i], TS * 10 - 44, TS * 5 - 47 - 32);
 	if (i == 5)
 		mlx_put_image_to_window(g->mlx, g->win, tab[i], TS * 10 - 39, TS * 5 - 40 - 25);
+}
+
+void	anim_player_atk(t_game *g, int dir)
+{
+	void	**tab;
+
+	if (dir == 0)
+	{
+		tab = g->assets->atk_r_t1;
+		if (g->player.atk_type == 1)
+			tab = g->assets->atk_r_t2;
+	}
+	else
+	{
+		tab = g->assets->atk_l_t1;
+		if (g->player.atk_type == 1)
+			tab = g->assets->atk_l_t2;
+	}
+	(void) tab;
 }

@@ -6,27 +6,11 @@
 /*   By: gmassoni <gmassoni@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:23:28 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/15 04:13:30 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/15 14:23:05 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-
-void	chose_grass(t_game *g, int i, int j, t_vec map_offset)
-{
-	char	sur[4];
-
-	sur[0] = g->map[j - map_offset.y - 1][i - map_offset.x];
-	sur[1] = g->map[j - map_offset.y][i - map_offset.x - 1];
-	sur[2] = g->map[j - map_offset.y + 1][i - map_offset.x];
-	sur[3] = g->map[j - map_offset.y][i - map_offset.x + 1];
-	if (sur[0] != '1' && sur[1] != '1' && sur[2] != '1' && sur[3] != '1')
-		mlx_put_image_to_window(g->mlx, g->win, g->assets->grass[4],\
-			j * TS - g->player.offset.x, i * TS - g->player.offset.y);
-	else
-		mlx_put_image_to_window(g->mlx, g->win, g->assets->grass[15],\
-			j * TS - g->player.offset.x, i * TS - g->player.offset.y);
-}
 
 void	draw_map(t_game *g)
 {
@@ -82,10 +66,12 @@ int	check_hitbox(t_game *g, char dir)
 
 void	draw_player(t_game *g)
 {
-	if (g->player.dir.x == 0 && g->player.dir.y == 0)
+	if (!g->player.dir.x && !g->player.dir.y && !g->player.atk)
 		anim_player_idle(g, g->player.anim_dir);
-	else
+	else if (!g->player.atk)
 		anim_player_walk(g, g->player.anim_dir);
+	else
+		anim_player_atk(g, g->player.anim_dir);
 }
 
 int	main_loop(void *param)
@@ -94,9 +80,9 @@ int	main_loop(void *param)
 
 	g = (t_game *)param;
 	mlx_clear_window(g->mlx, g->win);
-	if (!check_hitbox(g, 'x'))
+	if (!check_hitbox(g, 'x') && !g->player.atk)
 		g->player.pos.x += g->player.dir.x;
-	if (!check_hitbox(g, 'y'))
+	if (!check_hitbox(g, 'y') && !g->player.atk)
 		g->player.pos.y += g->player.dir.y;
 	g->player.cell = vecnew(g->player.pos.x / TS, g->player.pos.y / TS);
 	g->player.offset = vecnew(g->player.pos.x % TS, g->player.pos.y % TS);
@@ -107,26 +93,6 @@ int	main_loop(void *param)
 		g->frames = 1;
 	return (0);
 }
-
-/*int	main_loop(void *param)
-{
-	t_game	*g;
-
-	g = (t_game *)param;
-	mlx_clear_window(g->mlx, g->win);
-	for (int i = 0; i < 6; i++)
-		mlx_put_image_to_window(g->mlx, g->win, g->assets->right[i], TS * i, 0);
-	for (int i = 0; i < 6; i++)
-		mlx_put_image_to_window(g->mlx, g->win, g->assets->left[i], TS * i, 100);
-	for (int i = 0; i < 6; i++)
-		mlx_put_image_to_window(g->mlx, g->win, g->assets->idle_r[i], TS * i, 200);
-	for (int i = 0; i < 6; i++)
-		mlx_put_image_to_window(g->mlx, g->win, g->assets->idle_l[i], TS * i, 300);
-	mlx_put_image_to_window(g->mlx, g->win, g->assets->water, 0, 400);
-	for (int i = 0; i < 16; i++)
-		mlx_put_image_to_window(g->mlx, g->win, g->assets->grass[i], TS * i, 464);
-	return (0);
-}*/
 
 void	game_init(char **map)
 {
@@ -141,6 +107,8 @@ void	game_init(char **map)
 	g.player.pos = get_player_pos(g.map);
 	g.player.dir = vecnew(0, 0);
 	g.player.anim_dir = 0;
+	g.player.atk_type = 0;
+	g.player.atk = 0;
 	load_assets(&g);
 	mlx_set_fps_goal(g.mlx, 60);
 	mlx_on_event(g.mlx, g.win, MLX_KEYDOWN, key_down_hook, &g);

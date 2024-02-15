@@ -6,7 +6,7 @@
 /*   By: gmassoni <gmassoni@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 19:05:17 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/15 04:00:52 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/15 14:15:09 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,34 @@ void	load_assets(t_game *g)
 		g->assets->left[i] = mlx_png_file_to_image(g->mlx,\
 			tmp, NULL, NULL);
 	}
+	i = -1;
+	while (++i < 6)
+	{
+		add_png(tmp, i, "assets/graphics/player/attack_r/t1/");
+		g->assets->atk_r_t1[i] = mlx_png_file_to_image(g->mlx,\
+			tmp, NULL, NULL);
+	}
+	i = -1;
+	while (++i < 6)
+	{
+		add_png(tmp, i, "assets/graphics/player/attack_r/t2/");
+		g->assets->atk_r_t2[i] = mlx_png_file_to_image(g->mlx,\
+			tmp, NULL, NULL);
+	}
+	i = -1;
+	while (++i < 6)
+	{
+		add_png(tmp, i, "assets/graphics/player/attack_l/t1/");
+		g->assets->atk_l_t1[i] = mlx_png_file_to_image(g->mlx,\
+			tmp, NULL, NULL);
+	}
+	i = -1;
+	while (++i < 6)
+	{
+		add_png(tmp, i, "assets/graphics/player/attack_l/t2/");
+		g->assets->atk_l_t2[i] = mlx_png_file_to_image(g->mlx,\
+			tmp, NULL, NULL);
+	}
 }
 
 void	destroy_assets(t_game *g)
@@ -98,6 +126,18 @@ void	destroy_assets(t_game *g)
 	i = -1;
 	while (++i < 6)
 		mlx_destroy_image(g->mlx, g->assets->left[i]);
+	i = -1;
+	while (++i < 6)
+		mlx_destroy_image(g->mlx, g->assets->atk_r_t1[i]);
+	i = -1;
+	while (++i < 6)
+		mlx_destroy_image(g->mlx, g->assets->atk_r_t2[i]);
+	i = -1;
+	while (++i < 6)
+		mlx_destroy_image(g->mlx, g->assets->atk_l_t1[i]);
+	i = -1;
+	while (++i < 6)
+		mlx_destroy_image(g->mlx, g->assets->atk_l_t2[i]);
 	i = -1;
 	while (++i < 16)
 		mlx_destroy_image(g->mlx, g->assets->grass[i]);

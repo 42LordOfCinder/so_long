@@ -6,7 +6,7 @@
 /*   By: gmassoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 21:33:08 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/15 03:48:08 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/15 14:23:32 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,10 @@ typedef struct s_assets
 	void	*idle_l[6];
 	void	*right[6];
 	void	*left[6];
+	void	*atk_r_t1[6];
+	void	*atk_r_t2[6];
+	void	*atk_l_t1[6];
+	void	*atk_l_t2[6];
 }	t_assets;
 
 typedef struct s_player
@@ -46,6 +50,8 @@ typedef struct s_player
 	int		anim_dir;
 	t_vec	cell;
 	t_vec	offset;
+	int		atk_type;
+	int		atk;
 }	t_player;
 
 typedef struct s_game
@@ -80,6 +86,9 @@ void	draw_map(t_game *g);
 int		main_loop(void *param);
 void	game_init(char **map);
 
+// Ground
+void	chose_grass(t_game *g, int i, int j, t_vec map_offset);
+
 // Utils
 t_vec	vecnew(int x, int y);
 int		key_up_hook(int key, void *mlx);
@@ -91,6 +100,7 @@ t_vec	get_map_size(char **map);
 // Anims
 void	anim_player_idle(t_game *g, int dir);
 void	anim_player_walk(t_game *g, int dir);
+void	anim_player_atk(t_game *g, int dir);
 
 // Assets
 void	load_assets(t_game *g);
