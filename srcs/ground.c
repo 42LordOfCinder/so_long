@@ -6,16 +6,24 @@
 /*   By: gmassoni <gmassoni@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:23:28 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/16 15:07:49 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/16 21:28:46 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	draw_object(t_game *g, int i, int j)
+void	draw_object(t_game *g, int i, int j, t_vec map_offset)
 {
 	int	k;
 
+	if (j - map_offset.x == g->player.cell.x &&
+			i - map_offset.y == g->player.cell.y &&
+			g->player.offset.y > 10)
+	{
+		g->map[i - map_offset.y][j - map_offset.x] = '0';
+		g->objs--;
+		return ;
+	}
 	if (g->o_frames > 70)
 	mlx_put_image_to_window(g->mlx, g->win, g->assets->o_idle, j * TS -
 		g->player.offset.x, i * TS - g->player.offset.y);
@@ -32,6 +40,12 @@ void	draw_ally(t_game *g, int i, int j, t_vec map_offset)
 	int		k;
 	void	**tab;
 
+	if (j - map_offset.x == g->player.cell.x &&
+			i - map_offset.y == g->player.cell.y)
+	{
+		if (g->objs == 0)
+			mlx_loop_end(g->mlx);
+	}
 	if (j - map_offset.x <= g->player.cell.x)
 		tab = g->assets->a_idle_r;
 	else
@@ -92,11 +106,9 @@ void	draw_map(t_game *g)
 						g->map[i - map_offset.y][j - map_offset.x] - 48 - 2], j *
 						TS - g->player.offset.x, i * TS - g->player.offset.y);
 					else if (g->map[i - map_offset.y][j - map_offset.x] == 'C')
-						draw_object(g, i, j);
+						draw_object(g, i, j, map_offset);
 					else if (g->map[i - map_offset.y][j - map_offset.x] == 'E')
-					{
 						draw_ally(g, i, j, map_offset);
-					}
 				}
 			}
 	}

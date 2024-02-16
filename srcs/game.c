@@ -6,7 +6,7 @@
 /*   By: gmassoni <gmassoni@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:23:28 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/16 20:03:14 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/16 21:07:23 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	draw_player(t_game *g)
 int	main_loop(void *param)
 {
 	t_game	*g;
+	t_vec	new_cell;
 
 	g = (t_game *)param;
 	mlx_clear_window(g->mlx, g->win);
@@ -59,7 +60,10 @@ int	main_loop(void *param)
 		g->player.pos.x += g->player.dir.x;
 	if (!check_hitbox(g, 'y') && !g->player.atk)
 		g->player.pos.y += g->player.dir.y;
-	g->player.cell = vecnew(g->player.pos.x / TS, g->player.pos.y / TS);
+	new_cell = vecnew(g->player.pos.x / TS, g->player.pos.y / TS);
+	if (new_cell.x != g->player.cell.x || new_cell.y != g->player.cell.y)
+		g->moves++;
+	g->player.cell = new_cell;
 	g->player.offset = vecnew(g->player.pos.x % TS, g->player.pos.y % TS);
 	draw_map(g);
 	draw_ui(g);
@@ -79,7 +83,7 @@ void	game_init(char **map)
 {
 	t_game	g;
 
-	g.moves = 0;
+	g.moves = -1;
 	g.map = map;
 	g.objs = 0;
 	get_map_info(&g);
