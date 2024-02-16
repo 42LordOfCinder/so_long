@@ -6,7 +6,7 @@
 /*   By: gmassoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 21:33:08 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/15 19:30:23 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/16 16:31:27 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,11 @@ typedef struct s_assets
 	void	*atk_r_t2[6];
 	void	*atk_l_t1[6];
 	void	*atk_l_t2[6];
+	void	*a_idle_l[6];
+	void	*a_idle_r[6];
+	void	*objs_ui;
+	void	*dst_ui;
+	void	*life_ui;
 }	t_assets;
 
 typedef struct s_player
@@ -69,8 +74,10 @@ typedef struct s_game
 	int			moves;
 	int			frames;
 	float		f_frames;
+	int			o_frames;
 	t_assets	*assets;
 	t_player	player;
+	int			objs;
 }	t_game;
 
 // Main
@@ -89,6 +96,7 @@ int		check_access(char **map, char **cpy);
 int		check_map_path(char **map);
 
 // Game
+void	draw_player(t_game *g);
 void	draw_map(t_game *g);
 int		main_loop(void *param);
 void	game_init(char **map);
@@ -102,9 +110,7 @@ t_vec	vecnew(int x, int y);
 int		key_up_hook(int key, void *mlx);
 int		key_down_hook(int key, void *mlx);
 int		window_hook(int event, void *mlx);
-t_vec	get_player_pos(char **map);
-t_vec	get_map_size(char **map);
-char	**put_random_elt(char **map);
+void	get_map_info(t_game *g);
 
 // Anims
 void	anim_player_idle(t_game *g, int dir);
@@ -114,4 +120,7 @@ void	anim_player_atk(t_game *g, int dir);
 // Assets
 void	load_assets(t_game *g);
 void	destroy_assets(t_game *g);
+
+// UI
+void	draw_ui(t_game *g);
 #endif

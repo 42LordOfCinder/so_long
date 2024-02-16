@@ -6,11 +6,42 @@
 /*   By: gmassoni <gmassoni@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:23:28 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/15 19:07:05 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/16 15:07:49 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
+void	draw_object(t_game *g, int i, int j)
+{
+	int	k;
+
+	if (g->o_frames > 70)
+	mlx_put_image_to_window(g->mlx, g->win, g->assets->o_idle, j * TS -
+		g->player.offset.x, i * TS - g->player.offset.y);
+	else
+	{
+		k = g->o_frames / 10;
+		mlx_put_image_to_window(g->mlx, g->win, g->assets->objects[k], j * TS
+			- g->player.offset.x - 1, i * TS - g->player.offset.y - 1);
+	}
+}
+
+void	draw_ally(t_game *g, int i, int j, t_vec map_offset)
+{
+	int		k;
+	void	**tab;
+
+	if (j - map_offset.x <= g->player.cell.x)
+		tab = g->assets->a_idle_r;
+	else
+		tab = g->assets->a_idle_l;
+	k = g->frames / 10;
+	if (k == 6)
+		k = 0;
+	mlx_put_image_to_window(g->mlx, g->win, tab[k], j * TS - g->player.offset.x
+			, i * TS - g->player.offset.y - 10);
+}
 
 void	draw_map(t_game *g)
 {
@@ -54,13 +85,22 @@ void	draw_map(t_game *g)
 				g->map[i - map_offset.y][j - map_offset.x] != '1')
 			{
 				chose_grass(g, i, j, map_offset);
-				if (g->map[i - map_offset.y][j - map_offset.x] != '0' &&
-					ft_isdigit(g->map[i - map_offset.y][j - map_offset.x]))
-					mlx_put_image_to_window(g->mlx, g->win, g->assets->deco[\
-					g->map[i - map_offset.y][j - map_offset.x] - 48 - 2], j * \
-					TS - g->player.offset.x, i * TS - g->player.offset.y);
+				if (g->map[i - map_offset.y][j - map_offset.x] != '0')
+				{
+					if (ft_isdigit(g->map[i - map_offset.y][j - map_offset.x]))
+						mlx_put_image_to_window(g->mlx, g->win, g->assets->deco[
+						g->map[i - map_offset.y][j - map_offset.x] - 48 - 2], j *
+						TS - g->player.offset.x, i * TS - g->player.offset.y);
+					else if (g->map[i - map_offset.y][j - map_offset.x] == 'C')
+						draw_object(g, i, j);
+					else if (g->map[i - map_offset.y][j - map_offset.x] == 'E')
+					{
+						draw_ally(g, i, j, map_offset);
+					}
+				}
 			}
 	}
+	draw_player(g);
 }
 
 void	chose_grass(t_game *g, int i, int j, t_vec map_offset)

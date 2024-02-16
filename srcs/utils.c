@@ -6,7 +6,7 @@
 /*   By: gmassoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 01:34:42 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/15 19:13:19 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/16 16:05:03 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,41 +68,7 @@ int	window_hook(int event, void *mlx)
 	return (0);
 }
 
-t_vec	get_player_pos(char **map)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (map[i])
-	{
-		j = 0;
-		while (map[i][j])
-		{
-			if (map[i][j] == 'P')
-				return (vecnew((j * TS) + 39, (i * TS) + 45));
-			j++;
-		}
-		i++;
-	}
-	return (vecnew(0, 0));
-}
-
-t_vec	get_map_size(char **map)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (map[i])
-		i++;
-	j = 0;
-	while (map[i - 1][j])
-		j++;
-	return (vecnew(j, i));
-}
-
-char	**put_random_elt(char **map)
+void	get_map_info(t_game *g)
 {
 	int	i;
 	int	j;
@@ -110,17 +76,21 @@ char	**put_random_elt(char **map)
 
 	srand(time(NULL));
 	i = 0;
-	while (map[i + 1])
+	while (g->map[i])
 	{
 		j = 0;
-		while (map[i][j + 1])
+		while (g->map[i][j])
 		{
 			ran = rand() % 20;
-			if (ran == 1 && map[i][j] == '0')
-				map[i][j] = rand() % 8 + 48 + 2;
+			if (ran == 1 && g->map[i][j] == '0')
+				g->map[i][j] = rand() % 8 + 48 + 2;
+			if (g->map[i][j] == 'P')
+				g->player.pos = vecnew(j * TS + 39, i * TS + 45);
+			if (g->map[i][j] == 'C')
+				g->objs++;
 			j++;
 		}
 		i++;
 	}
-	return (map);
+	g->map_size = vecnew(j, i);
 }

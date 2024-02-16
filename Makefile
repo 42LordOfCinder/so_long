@@ -15,7 +15,8 @@ SRCS = srcs/game.c  \
 	   srcs/utils.c     \
 	   srcs/assets.c     \
 	   srcs/anim.c        \
-	   srcs/ground.c
+	   srcs/ground.c       \
+	   srcs/ui.c
 
 OBJS = ${SRCS:.c=.o}
 

@@ -6,7 +6,7 @@
 /*   By: gmassoni <gmassoni@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:23:28 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/15 18:29:19 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/16 20:03:14 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,16 @@ int	main_loop(void *param)
 	g->player.cell = vecnew(g->player.pos.x / TS, g->player.pos.y / TS);
 	g->player.offset = vecnew(g->player.pos.x % TS, g->player.pos.y % TS);
 	draw_map(g);
-	draw_player(g);
+	draw_ui(g);
 	g->frames += 2;
 	if (g->frames > 60)
 		g->frames = 1;
 	g->f_frames += 1.5;
 	if (g->f_frames > 80)
 		g->f_frames = 1;
+	g->o_frames += 2;
+	if (g->o_frames > 500)
+		g->o_frames = 1;
 	return (0);
 }
 
@@ -77,18 +80,20 @@ void	game_init(char **map)
 	t_game	g;
 
 	g.moves = 0;
-	g.map = put_random_elt(map);
+	g.map = map;
+	g.objs = 0;
+	get_map_info(&g);
 	g.frames = 1;
 	g.f_frames = 1;
-	g.map_size = get_map_size(map);
+	g.o_frames = 1;
 	g.mlx = mlx_init();
 	g.win = mlx_new_window(g.mlx, 21 * TS, 11 * TS, "so_long");
-	g.player.pos = get_player_pos(g.map);
 	g.player.dir = vecnew(0, 0);
 	g.player.anim_dir = 0;
 	g.player.atk_type = 0;
 	g.player.atk = 0;
 	load_assets(&g);
+	mlx_set_font_scale(g.mlx, g.win, "assets/font/font.ttf", 45.0f);
 	mlx_set_fps_goal(g.mlx, 60);
 	mlx_on_event(g.mlx, g.win, MLX_KEYDOWN, key_down_hook, &g);
 	mlx_on_event(g.mlx, g.win, MLX_KEYUP, key_up_hook, &g);
