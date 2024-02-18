@@ -6,7 +6,7 @@
 /*   By: gmassoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 01:34:42 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/16 16:05:03 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/18 03:32:18 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,17 @@ int	key_down_hook(int key, void *param)
 	g = (t_game *)param;
 	if (key == 41)
 		mlx_loop_end(g->mlx);
-	if (key == 26)
+	if (key == 26 || key == 82)
 		g->player.dir.y = -4;
-	if (key == 22)
+	if (key == 22 || key == 81)
 		g->player.dir.y = 4;
-	if (key == 4)
+	if (key == 4 || key == 80)
 		g->player.dir.x = -4;
-	if (key == 7)
+	if (key == 7 || key == 79)
 		g->player.dir.x = 4;
-	if (key == 7)
+	if (key == 7 || key == 79)
 		g->player.anim_dir = 0;
-	if (key == 4)
+	if (key == 4 || key == 80)
 		g->player.anim_dir = 1;
 	if (key == 44)
 		g->player.atk = 1;
@@ -50,13 +50,13 @@ int	key_up_hook(int key, void *param)
 	t_game	*g;
 
 	g = (t_game *)param;
-	if (key == 26)
+	if (key == 26 || key == 82)
 		g->player.dir.y = 0;
-	if (key == 22)
+	if (key == 22 || key == 81)
 		g->player.dir.y = 0;
-	if (key == 4)
+	if (key == 4 || key == 80)
 		g->player.dir.x = 0;
-	if (key == 7)
+	if (key == 7 || key == 79)
 		g->player.dir.x = 0;
 	return (0);
 }
@@ -85,7 +85,7 @@ void	get_map_info(t_game *g)
 			if (ran == 1 && g->map[i][j] == '0')
 				g->map[i][j] = rand() % 8 + 48 + 2;
 			if (g->map[i][j] == 'P')
-				g->player.pos = vecnew(j * TS + 39, i * TS + 45);
+				g->player.pos = vecnew(j * TS + 40, i * TS + 45);
 			if (g->map[i][j] == 'C')
 				g->objs++;
 			j++;

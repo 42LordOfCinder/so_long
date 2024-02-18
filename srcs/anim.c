@@ -6,7 +6,7 @@
 /*   By: gmassoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 21:19:58 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/15 14:24:10 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/18 04:23:29 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,8 @@ void	anim_player_idle(t_game *g, int dir)
 	i = g->frames / 10;
 	if (i == 6)
 		i = 0;
-	if (i == 0 || i == 1 || i == 5)
-		mlx_put_image_to_window(g->mlx, g->win, tab[i], TS * 10 - 39, TS * 5 - 45 - 30);
-	if (i == 2)
-		mlx_put_image_to_window(g->mlx, g->win, tab[i], TS * 10 - 40, TS * 5 - 44 - 29);
-	if (i == 3)
-		mlx_put_image_to_window(g->mlx, g->win, tab[i], TS * 10 - 40, TS * 5 - 43 - 28);
-	if (i == 4)
-		mlx_put_image_to_window(g->mlx, g->win, tab[i], TS * 10 - 39, TS * 5 - 44 - 28);
+	mlx_put_image_to_window(g->mlx, g->win, tab[i], TS * 10 - 40, TS * 5 - 45
+		- 30);
 }
 
 void	anim_player_walk(t_game *g, int dir)
@@ -46,35 +40,34 @@ void	anim_player_walk(t_game *g, int dir)
 	i = g->frames / 10;
 	if (i == 6)
 		i = 0;
-	if (i == 0)
-		mlx_put_image_to_window(g->mlx, g->win, tab[i], TS * 10 - 30, TS * 5 - 46 - 31);
-	if (i == 1)
-		mlx_put_image_to_window(g->mlx, g->win, tab[i], TS * 10 - 34, TS * 5 - 47 - 32);
-	if (i == 2)
-		mlx_put_image_to_window(g->mlx, g->win, tab[i], TS * 10 - 39, TS * 5 - 40 - 25);
-	if (i == 3)
-		mlx_put_image_to_window(g->mlx, g->win, tab[i], TS * 10 - 47, TS * 5 - 46 - 31);
-	if (i == 4)
-		mlx_put_image_to_window(g->mlx, g->win, tab[i], TS * 10 - 44, TS * 5 - 47 - 32);
-	if (i == 5)
-		mlx_put_image_to_window(g->mlx, g->win, tab[i], TS * 10 - 39, TS * 5 - 40 - 25);
+	mlx_put_image_to_window(g->mlx, g->win, tab[i], TS * 10 - 47, TS * 5 - 47
+		- 30);
 }
 
 void	anim_player_atk(t_game *g, int dir)
 {
-	void	**tab;
+	int		i;
 
-	if (dir == 0)
-	{
-		tab = g->assets->atk_r_t1;
-		if (g->player.atk_type == 1)
-			tab = g->assets->atk_r_t2;
-	}
+	i = g->a_frames / 10;
+	if (g->player.atk_type == 0 && dir == 0)
+		mlx_put_image_to_window(g->mlx, g->win, g->assets->atk_r_t1[i], TS * 10
+			- 45, TS * 5 - 67 - 30);
+	else if (g->player.atk_type == 0)
+		mlx_put_image_to_window(g->mlx, g->win, g->assets->atk_l_t1[i], TS * 10
+			- 74, TS * 5 - 67 - 30);
+	else if (g->player.atk_type == 1 && dir == 0)
+		mlx_put_image_to_window(g->mlx, g->win, g->assets->atk_r_t2[i], TS * 10
+			- 70, TS * 5 - 44 - 30);
 	else
+		mlx_put_image_to_window(g->mlx, g->win, g->assets->atk_l_t2[i], TS * 10
+			- 74, TS * 5 - 44 - 30);
+	if (g->a_frames > 58)
 	{
-		tab = g->assets->atk_l_t1;
+		g->a_frames = 1;
+		g->player.atk = 0;
 		if (g->player.atk_type == 1)
-			tab = g->assets->atk_l_t2;
+			g->player.atk_type = 0;
+		else
+			g->player.atk_type = 1;
 	}
-	(void) tab;
 }

@@ -6,7 +6,7 @@
 /*   By: gmassoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 21:33:08 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/16 16:31:27 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/18 02:09:46 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef struct s_player
 	t_vec	offset;
 	int		atk_type;
 	int		atk;
+	int		health;
 }	t_player;
 
 typedef struct s_game
@@ -75,6 +76,7 @@ typedef struct s_game
 	int			frames;
 	float		f_frames;
 	int			o_frames;
+	int			a_frames;
 	t_assets	*assets;
 	t_player	player;
 	int			objs;
