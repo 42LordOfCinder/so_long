@@ -6,7 +6,7 @@
 /*   By: gmassoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 01:34:42 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/18 03:32:18 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/19 16:18:23 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ int	key_down_hook(int key, void *param)
 		g->player.dir.x = -4;
 	if (key == 7 || key == 79)
 		g->player.dir.x = 4;
-	if (key == 7 || key == 79)
+	if ((key == 7 || key == 79) && !g->player.atk)
 		g->player.anim_dir = 0;
-	if (key == 4 || key == 80)
+	if ((key == 4 || key == 80) && !g->player.atk)
 		g->player.anim_dir = 1;
 	if (key == 44)
 		g->player.atk = 1;
@@ -88,6 +88,8 @@ void	get_map_info(t_game *g)
 				g->player.pos = vecnew(j * TS + 40, i * TS + 45);
 			if (g->map[i][j] == 'C')
 				g->objs++;
+			if (g->map[i][j] == 'F')
+				g->foes_nb++;
 			j++;
 		}
 		i++;

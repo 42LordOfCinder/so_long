@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ground.c                                           :+:      :+:    :+:   */
+/*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gmassoni <gmassoni@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:23:28 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/16 21:28:46 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/24 16:43:28 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,22 @@ void	draw_object(t_game *g, int i, int j, t_vec map_offset)
 	}
 }
 
+void	draw_foes(t_game *g, t_vec map_offset)
+{
+	int	i;
+
+	update_foes(g);
+	i = 0;
+	while (i < g->foes_nb)
+	{
+		if (g->foes[i].status == 0)
+			draw_foe_idle(g, map_offset, g->foes[i]);
+		else
+			draw_foe_walk(g, map_offset, g->foes[i]);
+		i++;
+	}
+}
+
 void	draw_ally(t_game *g, int i, int j, t_vec map_offset)
 {
 	int		k;
@@ -46,7 +62,11 @@ void	draw_ally(t_game *g, int i, int j, t_vec map_offset)
 		if (g->objs == 0)
 			mlx_loop_end(g->mlx);
 	}
-	if (j - map_offset.x <= g->player.cell.x)
+	if (j - map_offset.x < g->player.cell.x)
+		g->a_dir = 0;
+	else if (j - map_offset.x > g->player.cell.x)
+		g->a_dir = 1;
+	if (g->a_dir == 0)
 		tab = g->assets->a_idle_r;
 	else
 		tab = g->assets->a_idle_l;
@@ -112,7 +132,9 @@ void	draw_map(t_game *g)
 				}
 			}
 	}
-	draw_player(g);
+	draw_foes(g, map_offset);
+	if (g->player.health != 0)
+		draw_player(g);
 }
 
 void	chose_grass(t_game *g, int i, int j, t_vec map_offset)

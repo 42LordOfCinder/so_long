@@ -6,7 +6,7 @@
 /*   By: gmassoni <gmassoni@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 19:05:17 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/16 16:32:06 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/24 16:30:02 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,21 @@ void	load_assets(t_game *g)
 	load_tab(g, 6, "assets/graphics/player/attack_l/t2/", g->assets->atk_l_t2);
 	load_tab(g, 6, "assets/graphics/ally/right/", g->assets->a_idle_r);
 	load_tab(g, 6, "assets/graphics/ally/left/", g->assets->a_idle_l);
+	load_tab(g, 6, "assets/graphics/foes/idle_right/", g->assets->f_idle_r);
+	load_tab(g, 6, "assets/graphics/foes/idle_left/", g->assets->f_idle_l);
+	load_tab(g, 6, "assets/graphics/foes/right/", g->assets->f_right);
+	load_tab(g, 6, "assets/graphics/foes/left/", g->assets->f_left);
+	load_tab(g, 7, "assets/graphics/player/life/", g->assets->l_anim);
+	load_tab(g, 14, "assets/graphics/player/death_r/", g->assets->death_r);
+	load_tab(g, 14, "assets/graphics/player/death_l/", g->assets->death_l);
 	g->assets->objs_ui = mlx_png_file_to_image(g->mlx,
 			"assets/graphics/ui/objects.png", NULL, NULL);
 	g->assets->life_ui = mlx_png_file_to_image(g->mlx,
 			"assets/graphics/ui/life.png", NULL, NULL);
 	g->assets->dst_ui = mlx_png_file_to_image(g->mlx,
 			"assets/graphics/ui/distance.png", NULL, NULL);
+	g->assets->life = mlx_png_file_to_image(g->mlx,
+			"assets/graphics/player/life.png", NULL, NULL);
 }
 
 void	destroy_tab(t_game *g, int i, void **tab)
@@ -98,6 +107,7 @@ void	destroy_assets(t_game *g)
 	mlx_destroy_image(g->mlx, g->assets->objs_ui);
 	mlx_destroy_image(g->mlx, g->assets->life_ui);
 	mlx_destroy_image(g->mlx, g->assets->dst_ui);
+	mlx_destroy_image(g->mlx, g->assets->life);
 	destroy_tab(g, 6, g->assets->idle_r);
 	destroy_tab(g, 6, g->assets->idle_l);
 	destroy_tab(g, 6, g->assets->right);
@@ -112,5 +122,12 @@ void	destroy_assets(t_game *g)
 	destroy_tab(g, 7, g->assets->objects);
 	destroy_tab(g, 6, g->assets->a_idle_r);
 	destroy_tab(g, 6, g->assets->a_idle_l);
+	destroy_tab(g, 6, g->assets->f_idle_r);
+	destroy_tab(g, 6, g->assets->f_idle_l);
+	destroy_tab(g, 7, g->assets->l_anim);
+	destroy_tab(g, 6, g->assets->f_right);
+	destroy_tab(g, 6, g->assets->f_left);
+	destroy_tab(g, 14, g->assets->death_l);
+	destroy_tab(g, 14, g->assets->death_r);
 	free(g->assets);
 }

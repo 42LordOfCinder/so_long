@@ -6,7 +6,7 @@
 /*   By: gmassoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 21:33:08 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/18 02:09:46 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/24 16:44:05 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,25 +33,33 @@ typedef struct s_vec
 
 typedef struct s_assets
 {
-	void	*grass[16];
-	void	*water;
-	void	*o_idle;
-	void	*objects[7];
-	void	*foam[8];
-	void	*deco[8];
-	void	*idle_r[6];
-	void	*idle_l[6];
-	void	*right[6];
-	void	*left[6];
-	void	*atk_r_t1[6];
-	void	*atk_r_t2[6];
-	void	*atk_l_t1[6];
-	void	*atk_l_t2[6];
-	void	*a_idle_l[6];
-	void	*a_idle_r[6];
-	void	*objs_ui;
-	void	*dst_ui;
-	void	*life_ui;
+	void		*grass[16];
+	void		*water;
+	void		*o_idle;
+	void		*objects[7];
+	void		*foam[8];
+	void		*deco[8];
+	void		*idle_r[6];
+	void		*idle_l[6];
+	void		*right[6];
+	void		*left[6];
+	void		*atk_r_t1[6];
+	void		*atk_r_t2[6];
+	void		*atk_l_t1[6];
+	void		*atk_l_t2[6];
+	void		*a_idle_l[6];
+	void		*a_idle_r[6];
+	void		*f_idle_r[6];
+	void		*f_idle_l[6];
+	void		*f_right[6];
+	void		*f_left[6];
+	void		*objs_ui;
+	void		*dst_ui;
+	void		*life_ui;
+	void		*life;
+	void		*l_anim[7];
+	void		*death_r[14];
+	void		*death_l[14];
 }	t_assets;
 
 typedef struct s_player
@@ -64,7 +72,18 @@ typedef struct s_player
 	int		atk_type;
 	int		atk;
 	int		health;
+	int		iframes;
 }	t_player;
+
+typedef struct s_foe
+{
+	t_vec	pos;
+	t_vec	offset;
+	t_vec	cell;
+	int		status;
+	t_vec	dir;
+	int		anim_dir;
+}	t_foe;
 
 typedef struct s_game
 {
@@ -77,9 +96,13 @@ typedef struct s_game
 	float		f_frames;
 	int			o_frames;
 	int			a_frames;
+	int			d_frames;
 	t_assets	*assets;
 	t_player	player;
 	int			objs;
+	t_foe		*foes;
+	int			foes_nb;
+	int			a_dir;
 }	t_game;
 
 // Main
@@ -113,6 +136,11 @@ int		key_up_hook(int key, void *mlx);
 int		key_down_hook(int key, void *mlx);
 int		window_hook(int event, void *mlx);
 void	get_map_info(t_game *g);
+
+// Foes
+void	draw_foe_idle(t_game *g, t_vec map_offset, t_foe foe);
+void	draw_foe_walk(t_game *g, t_vec map_offset, t_foe foe);
+void	update_foes(t_game *g);
 
 // Anims
 void	anim_player_idle(t_game *g, int dir);

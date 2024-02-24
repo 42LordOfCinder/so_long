@@ -6,37 +6,30 @@
 /*   By: gmassoni <gmassoni@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:23:28 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/18 02:14:36 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/24 16:46:02 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int	check_hitbox(t_game *g, char dir)
+void	move(t_game *g)
 {
-	if (dir == 'x')
-	{
-		if (g->player.dir.x > 0)
-			if (g->map[g->player.cell.y][g->player.cell.x + 1] == '1')
-				if (g->player.offset.x >= 49)
-					return (1);
-		if (g->player.dir.x < 0)
-			if (g->map[g->player.cell.y][g->player.cell.x - 1] == '1')
-				if (g->player.offset.x <= 15)
-					return (1);
-	}
-	if (dir == 'y')
-	{
-		if (g->player.dir.y > 0)
-			if (g->map[g->player.cell.y + 1][g->player.cell.x] == '1')
-				if (g->player.offset.y >= 47)
-					return (1);
-		if (g->player.dir.y < 0)
-			if (g->map[g->player.cell.y - 1][g->player.cell.x] == '1')
-				if (g->player.offset.y <= 2)
-					return (1);
-	}
-	return (0);
+	if (!g->player.atk && g->player.dir.x > 0)
+		if (g->map[g->player.cell.y][g->player.cell.x + 1] != '1'
+			|| g->player.offset.x <= 37)
+			g->player.pos.x += g->player.dir.x;
+	if (!g->player.atk && g->player.dir.x < 0)
+		if (g->map[g->player.cell.y][g->player.cell.x - 1] 	!= '1'
+			|| g->player.offset.x >= 25)
+			g->player.pos.x += g->player.dir.x;
+	if (!g->player.atk && g->player.dir.y > 0)
+		if (g->map[g->player.cell.y + 1][g->player.cell.x] != '1'
+			|| g->player.offset.y <= 40)
+			g->player.pos.y += g->player.dir.y;
+	if (!g->player.atk && g->player.dir.y < 0)
+		if (g->map[g->player.cell.y - 1][g->player.cell.x] != '1'
+			|| g->player.offset.y >= 2)
+			g->player.pos.y += g->player.dir.y;
 }
 
 void	draw_player(t_game *g)
@@ -49,6 +42,21 @@ void	draw_player(t_game *g)
 		anim_player_atk(g, g->player.anim_dir);
 }
 
+void	death(t_game *g)
+{
+	void	**tab;
+	int		i;
+
+	if (g->player.dir == 0)
+		tab = g->assets->death_r;
+	else
+		tab = g->assets->death_l;
+	i = g->d_frames / 10;
+	mlx_put_image_to_window(...);
+	if (g->d_frames > ...)
+		mlx_loop_end(g->mlx);
+}
+
 int	main_loop(void *param)
 {
 	t_game	*g;
@@ -56,10 +64,7 @@ int	main_loop(void *param)
 
 	g = (t_game *)param;
 	mlx_clear_window(g->mlx, g->win);
-	if (!check_hitbox(g, 'x') && !g->player.atk)
-		g->player.pos.x += g->player.dir.x;
-	if (!check_hitbox(g, 'y') && !g->player.atk)
-		g->player.pos.y += g->player.dir.y;
+	move(g);
 	new_cell = vecnew(g->player.pos.x / TS, g->player.pos.y / TS);
 	if (new_cell.x != g->player.cell.x || new_cell.y != g->player.cell.y)
 		g->moves++;
@@ -78,27 +83,68 @@ int	main_loop(void *param)
 		g->o_frames = 1;
 	if (g->player.atk)
 		g->a_frames += 2;
+	if (g->player.iframes > 0)
+		g->player.iframes--;
+	if (g->player.health == 0)
+	{
+		g->d_frames++;
+		death(g);
+	}
 	return (0);
+}
+
+void	init_foes(t_game *g)
+{
+	int	i;
+	int	j;
+	int	k;
+
+	g->foes = malloc(sizeof(t_foe) * g->foes_nb);
+	i = 0;
+	k = 0;
+	while (g->map[i])
+	{
+		j = 0;
+		while (g->map[i][j])
+		{
+			if (g->map[i][j] == 'F')
+			{
+				g->foes[k].pos = vecnew(j * TS + 45, i * TS + 45);
+				g->foes[k].status = 0;
+				g->foes[k].cell = vecnew(g->foes[k].pos.x / TS, g->foes[k].pos.y / TS);
+				g->foes[k].offset = vecnew(g->foes[k].pos.x % TS, g->foes[k].pos.y % TS);
+				g->foes[k].anim_dir = 0;
+				k++;
+			}
+			j++;
+		}
+		i++;
+	}
 }
 
 void	game_init(char **map)
 {
 	t_game	g;
 
+	g.a_dir = 0;
 	g.moves = -1;
 	g.map = map;
 	g.objs = 0;
+	g.foes_nb = 0;
 	get_map_info(&g);
 	g.frames = 1;
+	g.d_frames = 0;
 	g.f_frames = 1;
 	g.o_frames = 1;
 	g.a_frames = 1;
 	g.mlx = mlx_init();
 	g.win = mlx_new_window(g.mlx, 21 * TS, 11 * TS, "so_long");
+	init_foes(&g);
 	g.player.dir = vecnew(0, 0);
 	g.player.anim_dir = 0;
 	g.player.atk_type = 0;
 	g.player.atk = 0;
+	g.player.iframes = 0;
 	g.player.health = 3;
 	load_assets(&g);
 	mlx_set_font_scale(g.mlx, g.win, "assets/font/font.ttf", 45.0f);
@@ -108,6 +154,7 @@ void	game_init(char **map)
 	mlx_on_event(g.mlx, g.win, MLX_WINDOW_EVENT, window_hook, g.mlx);
 	mlx_loop_hook(g.mlx, main_loop, &g);
 	mlx_loop(g.mlx);
+	free(g.foes);
 	mlx_destroy_window(g.mlx, g.win);
 	destroy_assets(&g);
 	mlx_destroy_display(g.mlx);
