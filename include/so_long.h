@@ -6,7 +6,7 @@
 /*   By: gmassoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 21:33:08 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/25 18:46:14 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/25 19:06:01 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_assets
 	void		*l_anim[7];
 	void		*death_r[7];
 	void		*death_l[7];
+	void		*f_death[8];
 }	t_assets;
 
 typedef struct s_player
