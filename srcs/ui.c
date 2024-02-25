@@ -6,7 +6,7 @@
 /*   By: gmassoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 16:11:44 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/24 16:41:36 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/25 18:28:17 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,6 @@ void	draw_ui(t_game *g)
 	mlx_put_image_to_window(g->mlx, g->win, g->assets->objs_ui, 1000, 60);
 	mlx_put_image_to_window(g->mlx, g->win, g->assets->dst_ui, 100, 550);
 	draw_life(g);
-	//draw_objects_remaining(g);
-	//draw_moves(g);
+	draw_objects_remaining(g);
+	draw_moves(g);
 }
