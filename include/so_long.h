@@ -6,7 +6,7 @@
 /*   By: gmassoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 21:33:08 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/26 21:04:28 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/26 22:45:38 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,14 +128,21 @@ int		check_access(char **map, char **cpy);
 int		check_map_path(char **map);
 
 // Game
-void	draw_player(t_game *g);
-void	draw_map(t_game *g);
 int		main_loop(void *param);
 void	game_init(char **map);
 
-// Ground
+// Map
 void	draw_map(t_game *g);
+
+// Statics
+void	draw_object(t_game *g, int i, int j, t_vec map_offset);
+void	draw_ally(t_game *g, int i, int j, t_vec map_offset);
+void	draw_ally2(t_game *g, int i, int j, void **tab);
+
+// Chose Grass
 void	chose_grass(t_game *g, int i, int j, t_vec map_offset);
+void	chose_grass2(t_game *g, int i, int j, t_vec map_offset);
+void	chose_grass3(t_game *g, int i, int j, t_vec map_offset);
 
 // Utils
 t_vec	vecnew(int x, int y);
@@ -145,20 +152,39 @@ int		window_hook(int event, void *mlx);
 void	get_map_info(t_game *g);
 
 // Foes
+void	draw_foes(t_game *g, t_vec map_offset);
+void	kill_all_foes(t_game *g);
+void	init_foes(t_game *g);
 void	draw_foe_dead(t_game *g, t_vec map_offset, t_foe *foe);
 void	draw_foe_idle(t_game *g, t_vec map_offset, t_foe foe);
 void	draw_foe_walk(t_game *g, t_vec map_offset, t_foe foe);
+void	get_foe_info(t_game *g, t_foe *f);
+void	move_foe(t_game *g, t_foe *foe);
 void	update_foes(t_game *g);
 
-// Anims
+// Player
+void	death(t_game *g);
+void	draw_player(t_game *g);
+void	move(t_game *g);
 void	anim_player_idle(t_game *g, int dir);
 void	anim_player_walk(t_game *g, int dir);
+void	reset_atk(t_game *g);
 void	anim_player_atk(t_game *g, int dir);
+
+// Assets Utils
+void	add_png(char *tmp, int i, char *path);
+void	load_tab(t_game *g, int i, char *path, void **tab);
+void	destroy_tab(t_game *g, int i, void **tab);
 
 // Assets
 void	load_assets(t_game *g);
+void	load_assets2(t_game *g);
 void	destroy_assets(t_game *g);
+void	destroy_assets2(t_game *g);
 
 // UI
+void	draw_life(t_game *g);
+void	draw_objects_remaining(t_game *g);
+void	draw_moves(t_game *g);
 void	draw_ui(t_game *g);
 #endif

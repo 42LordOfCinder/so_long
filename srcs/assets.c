@@ -6,49 +6,11 @@
 /*   By: gmassoni <gmassoni@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 19:05:17 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/26 19:23:53 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/26 22:11:01 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-
-void	add_png(char *tmp, int i, char *path)
-{
-	size_t	len;
-	int		inc;
-
-	inc = 0;
-	if (i >= 10)
-		inc++;
-	len = ft_strlen(path);
-	ft_memcpy(tmp, path, len);
-	if (i < 10)
-		tmp[len] = (char)(i + 48);
-	else
-	{
-		tmp[len] = (char)(i / 10 + 48);
-		tmp[len + 1] = (char)(i % 10 + 48);
-	}
-	tmp[len + 1 + inc] = '.';
-	tmp[len + 2 + inc] = 'p';
-	tmp[len + 3 + inc] = 'n';
-	tmp[len + 4 + inc] = 'g';
-	tmp[len + 5 + inc] = 0;
-}
-
-void	load_tab(t_game *g, int i, char *path, void **tab)
-{
-	int		j;
-	char	tmp[100];
-
-	j = 0;
-	while (j < i)
-	{
-		add_png(tmp, j, path);
-		tab[j] = mlx_png_file_to_image(g->mlx, tmp, NULL, NULL);
-		j++;
-	}
-}
 
 void	load_assets(t_game *g)
 {
@@ -73,6 +35,11 @@ void	load_assets(t_game *g)
 	load_tab(g, 6, "assets/graphics/ally/left/", g->assets->a_idle_l);
 	load_tab(g, 6, "assets/graphics/foes/idle_right/", g->assets->f_idle_r);
 	load_tab(g, 6, "assets/graphics/foes/idle_left/", g->assets->f_idle_l);
+	load_assets2(g);
+}
+
+void	load_assets2(t_game *g)
+{
 	load_tab(g, 6, "assets/graphics/foes/right/", g->assets->f_right);
 	load_tab(g, 6, "assets/graphics/foes/left/", g->assets->f_left);
 	load_tab(g, 7, "assets/graphics/player/life/", g->assets->l_anim);
@@ -91,19 +58,28 @@ void	load_assets(t_game *g)
 			"assets/graphics/player/life.png", NULL, NULL);
 }
 
-void	destroy_tab(t_game *g, int i, void **tab)
+void	destroy_assets(t_game *g)
 {
-	int	j;
-
-	j = 0;
-	while (j < i)
-	{
-		mlx_destroy_image(g->mlx, tab[j]);
-		j++;
-	}
+	destroy_tab(g, 8, g->assets->foam);
+	destroy_tab(g, 8, g->assets->deco);
+	destroy_tab(g, 7, g->assets->objects);
+	destroy_tab(g, 6, g->assets->a_idle_r);
+	destroy_tab(g, 6, g->assets->a_idle_l);
+	destroy_tab(g, 6, g->assets->f_idle_r);
+	destroy_tab(g, 6, g->assets->f_idle_l);
+	destroy_tab(g, 7, g->assets->l_anim);
+	destroy_tab(g, 6, g->assets->f_right);
+	destroy_tab(g, 6, g->assets->f_left);
+	destroy_tab(g, 7, g->assets->death_l);
+	destroy_tab(g, 7, g->assets->death_r);
+	destroy_tab(g, 8, g->assets->f_death);
+	destroy_tab(g, 6, g->assets->v_right);
+	destroy_tab(g, 6, g->assets->v_left);
+	destroy_assets2(g);
+	free(g->assets);
 }
 
-void	destroy_assets(t_game *g)
+void	destroy_assets2(t_game *g)
 {
 	mlx_destroy_image(g->mlx, g->assets->water);
 	mlx_destroy_image(g->mlx, g->assets->o_idle);
@@ -120,20 +96,4 @@ void	destroy_assets(t_game *g)
 	destroy_tab(g, 6, g->assets->atk_l_t1);
 	destroy_tab(g, 6, g->assets->atk_l_t2);
 	destroy_tab(g, 16, g->assets->grass);
-	destroy_tab(g, 8, g->assets->foam);
-	destroy_tab(g, 8, g->assets->deco);
-	destroy_tab(g, 7, g->assets->objects);
-	destroy_tab(g, 6, g->assets->a_idle_r);
-	destroy_tab(g, 6, g->assets->a_idle_l);
-	destroy_tab(g, 6, g->assets->f_idle_r);
-	destroy_tab(g, 6, g->assets->f_idle_l);
-	destroy_tab(g, 7, g->assets->l_anim);
-	destroy_tab(g, 6, g->assets->f_right);
-	destroy_tab(g, 6, g->assets->f_left);
-	destroy_tab(g, 7, g->assets->death_l);
-	destroy_tab(g, 7, g->assets->death_r);
-	destroy_tab(g, 8, g->assets->f_death);
-	destroy_tab(g, 6, g->assets->v_right);
-	destroy_tab(g, 6, g->assets->v_left);
-	free(g->assets);
 }

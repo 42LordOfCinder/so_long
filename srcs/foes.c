@@ -6,25 +6,11 @@
 /*   By: gmassoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:58:22 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/26 21:26:17 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/26 22:04:12 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-
-void	draw_foe_dead(t_game *g, t_vec map_offset, t_foe *foe)
-{
-	int	i;
-
-	if (foe->death_frames >= 80)
-		return ;
-	i = foe->death_frames / 10;
-	mlx_put_image_to_window(g->mlx, g->win, g->assets->f_death[i],
-		(foe->cell.x + map_offset.x) * TS - g->player.offset.x - 110 +
-		foe->offset.x, (foe->cell.y + map_offset.y) * TS - g->player.offset.y 
-		+ foe->offset.y - 110);
-	foe->death_frames += 2;
-}
 
 void	draw_foe_idle(t_game *g, t_vec map_offset, t_foe foe)
 {
@@ -39,8 +25,9 @@ void	draw_foe_idle(t_game *g, t_vec map_offset, t_foe foe)
 	if (k == 6)
 		k = 0;
 	mlx_put_image_to_window(g->mlx, g->win, tab[k], (foe.cell.x + map_offset.x)
-		* TS - g->player.offset.x - 57 + foe.offset.x, (foe.cell.y + map_offset.y) *
-		TS - g->player.offset.y - 80 + foe.offset.y);
+		* TS - g->player.offset.x - 57 + foe.offset.x,
+		(foe.cell.y + map_offset.y) * TS - g->player.offset.y - 80
+		+ foe.offset.y);
 }
 
 void	draw_foe_walk(t_game *g, t_vec map_offset, t_foe foe)
@@ -56,13 +43,15 @@ void	draw_foe_walk(t_game *g, t_vec map_offset, t_foe foe)
 	if (k == 6)
 		k = 0;
 	if (foe.anim_dir == 0)
-		mlx_put_image_to_window(g->mlx, g->win, tab[k], (foe.cell.x + map_offset.x)
-			* TS - g->player.offset.x - 90 + foe.offset.x, (foe.cell.y + map_offset.y) *
-			TS - g->player.offset.y - 70 + foe.offset.y);
+		mlx_put_image_to_window(g->mlx, g->win, tab[k], (foe.cell.x
+				+ map_offset.x) * TS - g->player.offset.x - 90 + foe.offset.x,
+			(foe.cell.y + map_offset.y) * TS - g->player.offset.y - 70
+			+ foe.offset.y);
 	else
-		mlx_put_image_to_window(g->mlx, g->win, tab[k], (foe.cell.x + map_offset.x)
-			* TS - g->player.offset.x - 50 + foe.offset.x, (foe.cell.y + map_offset.y)  *
-			TS - g->player.offset.y - 70 + foe.offset.y);
+		mlx_put_image_to_window(g->mlx, g->win, tab[k], (foe.cell.x
+				+ map_offset.x) * TS - g->player.offset.x - 50 + foe.offset.x,
+			(foe.cell.y + map_offset.y) * TS - g->player.offset.y - 70
+			+ foe.offset.y);
 }
 
 void	get_foe_info(t_game *g, t_foe *foe)
@@ -91,37 +80,45 @@ void	get_foe_info(t_game *g, t_foe *foe)
 		foe->anim_dir = 1;
 }
 
+void	move_foe(t_game *g, t_foe *foe)
+{
+	t_vec	dist;
+
+	dist = vecnew(foe->cell.x - g->player.cell.x,
+			foe->cell.y - g->player.cell.y);
+	if (dist.x >= -4 && dist.x <= 4 && dist.y >= -4 && dist.y <= 4
+		&& !foe->dead)
+	{
+		foe->status = 1;
+		foe->dir = vecnew(0, 0);
+		if (dist.x >= -4 && dist.x < 0)
+			foe->dir.x = 2;
+		else if (dist.x > 0 && dist.x <= 4)
+			foe->dir.x = -2;
+		if (dist.y >= -4 && dist.y < 0)
+			foe->dir.y = 2;
+		else if (dist.y > 0 && dist.y <= 4)
+			foe->dir.y = -2;
+	}
+	else
+	{
+		foe->dir = vecnew(0, 0);
+		foe->status = 0;
+	}
+}
+
 void	update_foes(t_game *g)
 {
 	int		i;
-	t_vec	dist;
 
 	i = -1;
 	while (++i < g->foes_nb)
 	{
-		dist = vecnew(g->foes[i].cell.x - g->player.cell.x, g->foes[i].cell.y - g->player.cell.y);
-		if (dist.x >= -4 && dist.x <= 4 && dist.y >= -4 && dist.y <= 4 && !g->foes[i].dead)
-		{
-			g->foes[i].status = 1;
-			g->foes[i].dir = vecnew(0, 0);
-			if (dist.x >= -4 && dist.x < 0)
-				g->foes[i].dir.x = 2;
-			else if (dist.x > 0 && dist.x <= 4)
-				g->foes[i].dir.x = -2;
-			if (dist.y >= - 4 && dist.y < 0)
-				g->foes[i].dir.y = 2;
-			else if (dist.y > 0 && dist.y <= 4)
-				g->foes[i].dir.y = -2;
-		}
-		else
-		{
-			g->foes[i].dir = vecnew(0, 0);
-			g->foes[i].status = 0;
-		}
+		move_foe(g, &g->foes[i]);
 		get_foe_info(g, &g->foes[i]);
 		if (g->foes[i].cell.x == g->player.cell.x
-				&& g->foes[i].cell.y == g->player.cell.y
-				&& !g->player.iframes && !g->foes[i].dead)
+			&& g->foes[i].cell.y == g->player.cell.y
+			&& !g->player.iframes && !g->foes[i].dead)
 		{
 			g->player.health--;
 			g->player.iframes = 120;

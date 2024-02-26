@@ -14,10 +14,15 @@ SRCS = srcs/game.c  \
 	   srcs/checking.c \
 	   srcs/utils.c     \
 	   srcs/assets.c     \
-	   srcs/anim.c        \
-	   srcs/draw.c         \
-	   srcs/ui.c            \
-	   srcs/foes.c
+	   srcs/ui.c          \
+	   srcs/foes.c         \
+	   srcs/foes2.c         \
+	   srcs/anim_player.c    \
+	   srcs/assets_utils.c    \
+	   srcs/update_player.c    \
+	   srcs/chose_grass.c       \
+	   srcs/draw_statics.c       \
+	   srcs/draw_map.c
 
 OBJS = ${SRCS:.c=.o}
 
