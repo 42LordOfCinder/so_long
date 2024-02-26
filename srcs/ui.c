@@ -6,7 +6,7 @@
 /*   By: gmassoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 16:11:44 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/25 18:28:17 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/25 20:25:28 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,14 @@ void	draw_life(t_game *g)
 	{
 		k = g->o_frames / 10;
 		if (g->player.health >= 1)
-			mlx_put_image_to_window(g->mlx, g->win, g->assets->l_anim[k], 185, 90);
+			mlx_put_image_to_window(g->mlx, g->win, g->assets->l_anim[k],
+				185, 90);
 		if (g->player.health >= 2)
-			mlx_put_image_to_window(g->mlx, g->win, g->assets->l_anim[k], 241, 90);
+			mlx_put_image_to_window(g->mlx, g->win, g->assets->l_anim[k],
+				241, 90);
 		if (g->player.health >= 3)
-			mlx_put_image_to_window(g->mlx, g->win, g->assets->l_anim[k], 297, 90);
+			mlx_put_image_to_window(g->mlx, g->win, g->assets->l_anim[k],
+				297, 90);
 	}
 }
 
