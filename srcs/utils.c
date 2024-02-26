@@ -6,7 +6,7 @@
 /*   By: gmassoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 01:34:42 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/19 16:18:23 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/26 19:32:36 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ int	key_down_hook(int key, void *param)
 		g->player.dir.x = -4;
 	if (key == 7 || key == 79)
 		g->player.dir.x = 4;
-	if ((key == 7 || key == 79) && !g->player.atk)
+	if ((key == 7 || key == 79) && !g->player.atk && !g->v)
 		g->player.anim_dir = 0;
-	if ((key == 4 || key == 80) && !g->player.atk)
+	if ((key == 4 || key == 80) && !g->player.atk && !g->v)
 		g->player.anim_dir = 1;
 	if (key == 44)
 		g->player.atk = 1;

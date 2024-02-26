@@ -60,7 +60,7 @@ all: ${NAME}
 ${NAME}: ${LIBFT} ${OBJS}
 	@printf "${_CLEAR} ${_YELLOW}${_BOLD}[${_END} Compiling       ${_BOLD}so_long${_END}      ${_GREEN}Done!${_END}${_YELLOW}${_BOLD} ]${_END}"
 	@printf "\n ${_PURPLE}${_BOLD}[${_END} Linking         ${_BOLD}so_long${_END}...${_PURPLE}${_BOLD} ]${_END} "
-	@${CC} ${CFLAGS} ${OBJS} ${LIBFT} mlx/libmlx.so -lSDL2 -lSDL2_mixer -I${INCLUDE} -I${LIBFT_INCLUDE} -o ${NAME}
+	@${CC} ${CFLAGS} ${OBJS} ${LIBFT} mlx/libmlx.so -lSDL2 -I${INCLUDE} -I${LIBFT_INCLUDE} -o ${NAME}
 	@printf "${_CLEAR} ${_PURPLE}${_BOLD}[${_END} Linking         ${_BOLD}so_long${_END}      ${_GREEN}Done!${_END}${_PURPLE}${_BOLD} ]${_END}\n"
 
 ${LIBFT}:

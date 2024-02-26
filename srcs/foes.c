@@ -6,11 +6,25 @@
 /*   By: gmassoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:58:22 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/23 18:12:43 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/26 21:26:17 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
+void	draw_foe_dead(t_game *g, t_vec map_offset, t_foe *foe)
+{
+	int	i;
+
+	if (foe->death_frames >= 80)
+		return ;
+	i = foe->death_frames / 10;
+	mlx_put_image_to_window(g->mlx, g->win, g->assets->f_death[i],
+		(foe->cell.x + map_offset.x) * TS - g->player.offset.x - 110 +
+		foe->offset.x, (foe->cell.y + map_offset.y) * TS - g->player.offset.y 
+		+ foe->offset.y - 110);
+	foe->death_frames += 2;
+}
 
 void	draw_foe_idle(t_game *g, t_vec map_offset, t_foe foe)
 {
@@ -86,7 +100,7 @@ void	update_foes(t_game *g)
 	while (++i < g->foes_nb)
 	{
 		dist = vecnew(g->foes[i].cell.x - g->player.cell.x, g->foes[i].cell.y - g->player.cell.y);
-		if (dist.x >= -4 && dist.x <= 4 && dist.y >= -4 && dist.y <= 4)
+		if (dist.x >= -4 && dist.x <= 4 && dist.y >= -4 && dist.y <= 4 && !g->foes[i].dead)
 		{
 			g->foes[i].status = 1;
 			g->foes[i].dir = vecnew(0, 0);
@@ -107,7 +121,7 @@ void	update_foes(t_game *g)
 		get_foe_info(g, &g->foes[i]);
 		if (g->foes[i].cell.x == g->player.cell.x
 				&& g->foes[i].cell.y == g->player.cell.y
-				&& !g->player.iframes)
+				&& !g->player.iframes && !g->foes[i].dead)
 		{
 			g->player.health--;
 			g->player.iframes = 120;

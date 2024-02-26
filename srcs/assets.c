@@ -6,7 +6,7 @@
 /*   By: gmassoni <gmassoni@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 19:05:17 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/25 19:06:53 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/26 19:23:53 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ void	load_assets(t_game *g)
 	load_tab(g, 7, "assets/graphics/player/death_r/", g->assets->death_r);
 	load_tab(g, 7, "assets/graphics/player/death_l/", g->assets->death_l);
 	load_tab(g, 8, "assets/graphics/foes/death/", g->assets->f_death);
+	load_tab(g, 6, "assets/graphics/ally/v_right/", g->assets->v_right);
+	load_tab(g, 6, "assets/graphics/ally/v_left/", g->assets->v_left);
 	g->assets->objs_ui = mlx_png_file_to_image(g->mlx,
 			"assets/graphics/ui/objects.png", NULL, NULL);
 	g->assets->life_ui = mlx_png_file_to_image(g->mlx,
@@ -131,5 +133,7 @@ void	destroy_assets(t_game *g)
 	destroy_tab(g, 7, g->assets->death_l);
 	destroy_tab(g, 7, g->assets->death_r);
 	destroy_tab(g, 8, g->assets->f_death);
+	destroy_tab(g, 6, g->assets->v_right);
+	destroy_tab(g, 6, g->assets->v_left);
 	free(g->assets);
 }

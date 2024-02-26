@@ -6,7 +6,7 @@
 /*   By: gmassoni <gmassoni@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:23:28 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/24 16:43:28 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/26 21:06:36 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,9 @@ void	draw_foes(t_game *g, t_vec map_offset)
 	i = 0;
 	while (i < g->foes_nb)
 	{
-		if (g->foes[i].status == 0)
+		if (g->foes[i].dead == 1)
+			draw_foe_dead(g, map_offset, &g->foes[i]);
+		else if (g->foes[i].status == 0)
 			draw_foe_idle(g, map_offset, g->foes[i]);
 		else
 			draw_foe_walk(g, map_offset, g->foes[i]);
@@ -60,21 +62,35 @@ void	draw_ally(t_game *g, int i, int j, t_vec map_offset)
 			i - map_offset.y == g->player.cell.y)
 	{
 		if (g->objs == 0)
-			mlx_loop_end(g->mlx);
+			g->v = 1;
 	}
 	if (j - map_offset.x < g->player.cell.x)
 		g->a_dir = 0;
 	else if (j - map_offset.x > g->player.cell.x)
 		g->a_dir = 1;
-	if (g->a_dir == 0)
-		tab = g->assets->a_idle_r;
+	if (g->v == 0)
+	{
+		if (g->a_dir == 0)
+			tab = g->assets->a_idle_r;
+		else
+			tab = g->assets->a_idle_l;
+	}
 	else
-		tab = g->assets->a_idle_l;
+	{
+		if (g->a_dir == 0)
+			tab = g->assets->v_right;
+		else
+			tab = g->assets->v_left;
+	}
 	k = g->frames / 10;
 	if (k == 6)
 		k = 0;
-	mlx_put_image_to_window(g->mlx, g->win, tab[k], j * TS - g->player.offset.x
+	if (g->v == 0)
+		mlx_put_image_to_window(g->mlx, g->win, tab[k], j * TS - g->player.offset.x
 			, i * TS - g->player.offset.y - 10);
+	else
+		mlx_put_image_to_window(g->mlx, g->win, tab[k], j * TS - g->player.offset.x - 14,
+			i * TS - g->player.offset.y - 70);
 }
 
 void	draw_map(t_game *g)
