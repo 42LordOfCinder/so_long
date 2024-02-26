@@ -6,7 +6,7 @@
 /*   By: gmassoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 21:33:08 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/26 22:45:38 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/26 23:14:10 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,9 @@ int		check_access(char **map, char **cpy);
 int		check_map_path(char **map);
 
 // Game
+void	increase_frames(t_game *g);
 int		main_loop(void *param);
+void	init_game_struct(t_game *g, char **map);
 void	game_init(char **map);
 
 // Map
