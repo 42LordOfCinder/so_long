@@ -6,7 +6,7 @@
 /*   By: gmassoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:58:22 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/26 22:04:12 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/27 19:58:56 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,13 +114,13 @@ void	update_foes(t_game *g)
 	i = -1;
 	while (++i < g->foes_nb)
 	{
-		move_foe(g, &g->foes[i]);
+		//move_foe(g, &g->foes[i]);
 		get_foe_info(g, &g->foes[i]);
 		if (g->foes[i].cell.x == g->player.cell.x
 			&& g->foes[i].cell.y == g->player.cell.y
 			&& !g->player.iframes && !g->foes[i].dead)
 		{
-			g->player.health--;
+			//g->player.health--;
 			g->player.iframes = 120;
 		}
 	}

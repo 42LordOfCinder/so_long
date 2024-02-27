@@ -6,7 +6,7 @@
 /*   By: gmassoni <gmassoni@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 22:18:32 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/27 16:35:44 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/27 20:00:34 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,29 @@ void	death(t_game *g)
 
 void	atk(t_game *g)
 {
-	if (g->player.atk)
-		kill_all_foes(g);
+	int	atk_frame;
+	int	i;
+
+	atk_frame = g->a_frames / 10;
+	i = -1;
+	while (++i < g->foes_nb)
+	{
+		if (!g->player.anim_dir && g->player.pos.x <= g->foes[i].pos.x)
+		{
+			if (!g->player.atk_type /*&& atk_frame == 0*/
+				&& g->foes[i].pos.x <= g->player.pos.x + 60
+				&& g->foes[i].pos.y >= g->player.pos.y )
+				take_damage(&g->foes[i]);
+			/*if (!g->player.atk_type && atk_frame == 1)
+				take_damage(&g->foes[i]);
+			if (!g->player.atk_type && atk_frame == 2)
+				take_damage(&g->foes[i]);
+			if (!g->player.atk_type && atk_frame == 3)
+				take_damage(&g->foes[i]);
+			if (!g->player.atk_type && atk_frame == 4)
+				take_damage(&g->foes[i]);
+			if (!g->player.atk_type && atk_frame == 5)
+				take_damage(&g->foes[i]);*/
+		}
+	}
 }

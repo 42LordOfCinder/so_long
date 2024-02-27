@@ -6,7 +6,7 @@ INCLUDE = ./include
 
 CC = clang
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 
 SRCS = srcs/game.c  \
 	   srcs/main.c   \

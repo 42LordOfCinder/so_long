@@ -6,7 +6,7 @@
 /*   By: gmassoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 21:33:08 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/27 16:12:15 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/27 18:33:15 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ typedef struct s_foe
 	int		anim_dir;
 	int		dead;
 	int		death_frames;
+	int		health;
 }	t_foe;
 
 typedef struct s_game
@@ -154,6 +155,7 @@ int		window_hook(int event, void *mlx);
 void	get_map_info(t_game *g);
 
 // Foes
+void	take_damage(t_foe *foe);
 void	draw_foes(t_game *g, t_vec map_offset);
 void	kill_all_foes(t_game *g);
 void	init_foes(t_game *g);
