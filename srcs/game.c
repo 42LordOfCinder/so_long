@@ -6,7 +6,7 @@
 /*   By: gmassoni <gmassoni@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:23:28 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/26 23:13:49 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/27 16:04:17 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	main_loop(void *param)
 	{
 		kill_all_foes(g);
 		g->v_frames += 2;
-		if (g->v_frames > 115)
+		if (g->v_frames > 150)
 			mlx_loop_end(g->mlx);
 	}
 	return (0);
@@ -88,11 +88,11 @@ void	game_init(char **map)
 {
 	t_game	g;
 
-	init_game_struct(&g, map);
 	g.mlx = mlx_init();
+	mlx_set_fps_goal(g.mlx, 60);
+	init_game_struct(&g, map);
 	init_foes(&g);
 	load_assets(&g);
-	mlx_set_fps_goal(g.mlx, 60);
 	mlx_loop_hook(g.mlx, main_loop, &g);
 	g.win = mlx_new_window(g.mlx, 21 * TS, 11 * TS, "so_long");
 	mlx_set_font_scale(g.mlx, g.win, "assets/font/font.ttf", 45.0f);
@@ -100,8 +100,8 @@ void	game_init(char **map)
 	mlx_on_event(g.mlx, g.win, MLX_KEYUP, key_up_hook, &g);
 	mlx_on_event(g.mlx, g.win, MLX_WINDOW_EVENT, window_hook, g.mlx);
 	mlx_loop(g.mlx);
-	free(g.foes);
 	mlx_destroy_window(g.mlx, g.win);
 	destroy_assets(&g);
 	mlx_destroy_display(g.mlx);
+	free(g.foes);
 }

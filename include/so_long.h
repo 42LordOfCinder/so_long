@@ -6,7 +6,7 @@
 /*   By: gmassoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 21:33:08 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/26 23:14:10 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/27 16:12:15 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,7 @@ void	move_foe(t_game *g, t_foe *foe);
 void	update_foes(t_game *g);
 
 // Player
+void	atk(t_game *g);
 void	death(t_game *g);
 void	draw_player(t_game *g);
 void	move(t_game *g);

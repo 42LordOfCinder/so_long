@@ -6,7 +6,7 @@
 /*   By: gmassoni <gmassoni@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 22:18:32 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/26 22:20:08 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/27 16:35:44 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,10 @@ void	draw_player(t_game *g)
 	else if (!g->player.atk)
 		anim_player_walk(g, g->player.anim_dir);
 	else
+	{
+		atk(g);
 		anim_player_atk(g, g->player.anim_dir);
+	}
 }
 
 void	death(t_game *g)
@@ -58,4 +61,10 @@ void	death(t_game *g)
 		mlx_loop_end(g->mlx);
 	mlx_put_image_to_window(g->mlx, g->win, tab[i], TS * 10 - 64,
 		TS * 5 - 64);
+}
+
+void	atk(t_game *g)
+{
+	if (g->player.atk)
+		kill_all_foes(g);
 }
