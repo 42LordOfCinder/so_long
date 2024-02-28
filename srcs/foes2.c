@@ -6,7 +6,7 @@
 /*   By: gmassoni <gmassoni@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 22:03:13 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/27 19:36:40 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/28 19:32:49 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	init_foes(t_game *g)
 				g->foes[k].offset = vecnew(g->foes[k].pos.x % TS,
 						g->foes[k].pos.y % TS);
 				g->foes[k].dead = 0;
-				g->foes[k].health = 2;
+				g->foes[k].health = 1;
 				g->foes[k++].death_frames = 1;
 			}
 		}

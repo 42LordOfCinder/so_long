@@ -6,7 +6,7 @@
 /*   By: gmassoni <gmassoni@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 22:18:32 by gmassoni          #+#    #+#             */
-/*   Updated: 2024/02/27 20:00:34 by gmassoni         ###   ########.fr       */
+/*   Updated: 2024/02/28 19:32:31 by gmassoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,22 +72,21 @@ void	atk(t_game *g)
 	i = -1;
 	while (++i < g->foes_nb)
 	{
-		if (!g->player.anim_dir && g->player.pos.x <= g->foes[i].pos.x)
+		if (!g->player.anim_dir && atk_frame == 3)
 		{
-			if (!g->player.atk_type /*&& atk_frame == 0*/
-				&& g->foes[i].pos.x <= g->player.pos.x + 60
-				&& g->foes[i].pos.y >= g->player.pos.y )
+			if (g->foes[i].pos.x + 15 > g->player.pos.x + 43
+				&& g->foes[i].pos.x - 21 < g->player.pos.x + 74
+				&& g->foes[i].pos.y + 35 > g->player.pos.y - 45
+				&& g->foes[i].pos.y - 45 < g->player.pos.y + 30)
 				take_damage(&g->foes[i]);
-			/*if (!g->player.atk_type && atk_frame == 1)
+		}
+		else if (atk_frame == 3)
+		{
+			if (g->foes[i].pos.x + 52 > g->player.pos.x - 40
+				&& g->foes[i].pos.x - 36 < g->player.pos.x
+				&& g->foes[i].pos.y + 35 > g->player.pos.y - 45
+				&& g->foes[i].pos.y - 45 < g->player.pos.y + 30)
 				take_damage(&g->foes[i]);
-			if (!g->player.atk_type && atk_frame == 2)
-				take_damage(&g->foes[i]);
-			if (!g->player.atk_type && atk_frame == 3)
-				take_damage(&g->foes[i]);
-			if (!g->player.atk_type && atk_frame == 4)
-				take_damage(&g->foes[i]);
-			if (!g->player.atk_type && atk_frame == 5)
-				take_damage(&g->foes[i]);*/
 		}
 	}
 }

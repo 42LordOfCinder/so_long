@@ -32,7 +32,10 @@ LIBFT = ${LIBFT_DIR}/libft.a
 
 LIBFT_INCLUDE = ./${LIBFT_DIR}/include
 
-# This is a minimal set of ANSI/VT100 color codes
+MLX = mlx/libmlx.so
+
+MLX_DIR = mlx
+
 _END=\x1b[0m
 _BOLD=\x1b[1m
 _UNDER=\x1b[4m
@@ -50,23 +53,20 @@ _PURPLE=\x1b[35m
 _CYAN=\x1b[36m
 _WHITE=\x1b[37m
 
-# Inverted, i.e. colored backgrounds
-_IGREY=\x1b[40m
-_IRED=\x1b[41m
-_IGREEN=\x1b[42m
-_IYELLOW=\x1b[43m
-_IBLUE=\x1b[44m
-_IPURPLE=\x1b[45m
-_ICYAN=\x1b[46m
-_IWHITE=\x1b[47m
-
 all: ${NAME}
 
-${NAME}: ${LIBFT} ${OBJS}
+${NAME}: ${MLX} ${LIBFT} ${OBJS}
 	@printf "${_CLEAR} ${_YELLOW}${_BOLD}[${_END} Compiling       ${_BOLD}so_long${_END}      ${_GREEN}Done!${_END}${_YELLOW}${_BOLD} ]${_END}"
 	@printf "\n ${_PURPLE}${_BOLD}[${_END} Linking         ${_BOLD}so_long${_END}...${_PURPLE}${_BOLD} ]${_END} "
 	@${CC} ${CFLAGS} ${OBJS} ${LIBFT} mlx/libmlx.so -lSDL2 -I${INCLUDE} -I${LIBFT_INCLUDE} -o ${NAME}
 	@printf "${_CLEAR} ${_PURPLE}${_BOLD}[${_END} Linking         ${_BOLD}so_long${_END}      ${_GREEN}Done!${_END}${_PURPLE}${_BOLD} ]${_END}\n"
+
+${MLX}: ${MLX_DIR}
+	@make -s -j -C mlx
+
+${MLX_DIR}:
+	@mkdir mlx
+	@git clone git@github.com:seekrs/MacroLibX mlx
 
 ${LIBFT}:
 	@make -s -C libft
